@@ -1,19 +1,35 @@
-// opends ./data/bills.json and seeds the database with the data
+import fs from "fs";
 
-import { PrismaClient } from '@prisma/client';
-import fs from 'fs';
-
-const prisma = new PrismaClient();
-
-async function seed() {
-  const bills = JSON.parse(fs.readFileSync('./data/bills.json', 'utf-8'));
-
-  for (const bill of bills) {
-    await prisma.bill.create({
-      data: {
-      },
-    });
-  }
+type VoteInfo = {
+    Date: string,
+    Result: string,
+    Location: string,
+    "Ayes Count": string,
+    "Noes Count": string,
+    "NVR Count": string,
+    Motion: string,
+    "Ayes": string[],
+    "Noes": string[],
+    "NVR": string[],
 }
 
-await seed()
+type Bill = {
+    measure: string,
+    billId: string,
+    billName: string,
+    author: string,
+    status: string,
+    billText: string,
+    voteInfo: VoteInfo[],
+
+}
+
+function seed() {
+    const bills = JSON.parse(fs.readFileSync("./data/bills.json", "utf-8")) as Bill[];
+
+    for (const bill of bills) {
+        console.log(bill.measure)
+    }
+}
+
+seed();
