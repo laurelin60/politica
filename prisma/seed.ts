@@ -77,33 +77,33 @@ async function seedSenators() {
 }
 
 
-async function seedBills() {
-    const bills = JSON.parse(fs.readFileSync("./data/bills.json", "utf-8")) as Bill[];
-
-    for (const bill of bills) {
-        await db.bill.create({
-            data: {
-                billId: bill.billId,
-                measure: bill.measure,
-                subject: bill.billName,
-                status: bill.status,
-                fullText: bill.billText,
-                author: {
-                    connect: {
-                        name: bill.author
-                    }
-                },
-                votes: {
-                    createMany: {
-                        data: [
-
-                        ]
-                    }
-                }
-            }
-        });
-    }
-}
+// async function seedBills() {
+//     const bills = JSON.parse(fs.readFileSync("./data/bills.json", "utf-8")) as Bill[];
+//
+//     for (const bill of bills) {
+//         await db.bill.create({
+//             data: {
+//                 billId: bill.billId,
+//                 measure: bill.measure,
+//                 subject: bill.billName,
+//                 status: bill.status,
+//                 fullText: bill.billText,
+//                 author: {
+//                     connect: {
+//                         name: bill.author
+//                     }
+//                 },
+//                 votes: {
+//                     createMany: {
+//                         data: [
+//
+//                         ]
+//                     }
+//                 }
+//             }
+//         });
+//     }
+// }
 
 async function seedVotes() {
 

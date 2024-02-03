@@ -15,7 +15,7 @@
     "start": "next start"
   },
   "prisma": {
-    "seed": "./prisma/seed.ts"
+    "seed": "ts-node ./prisma/seed.ts"
   },
   "babel": {
     "presets": [
