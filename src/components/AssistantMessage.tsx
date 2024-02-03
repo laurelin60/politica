@@ -1,9 +1,43 @@
+"use client";
+
+import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Check, FileText } from "lucide-react";
+import { Check, Dot, FileText } from "lucide-react";
 
 import { Button } from "./ui/button";
 
-const AssistantMessage = () => {
+const BILLS: Bill[] = [
+    {
+        label: "CA Bill 234",
+        title: "Increasing access to Hormone Therapy",
+    },
+    {
+        label: "CA Bill 345",
+        title: "Increasing access to Hormone Therapy",
+    },
+    {
+        label: "CA Bill 456",
+        title: "Increasing access to Hormone Therapy",
+    },
+];
+
+type Bill = {
+    label: string;
+    title: string;
+};
+
+const AssistantMessage = ({
+    onSelect,
+}: {
+    onSelect: (billTitle: string) => void;
+}) => {
+    const [selectedBill, setSelectedBill] = useState<string>();
+
+    const handleSelect = (billTitle: string) => {
+        onSelect(billTitle);
+        setSelectedBill(billTitle);
+    };
+
     return (
         <div className="space-y-4">
             <div className="flex items-center gap-x-2 flex-row">
@@ -29,40 +63,61 @@ const AssistantMessage = () => {
                     </h6>
                 </div>
 
-                <div className="space-y-4">
-                    <div className="flex-between p-8 rounded-4xl border-4 border-[#F7F6F9] bg-white hover:border-blue-500 focus:border-blue-500 focus:outline-none">
-                        <div className="w-[80%]">
-                            <h3 className="text-xl font-semibold opacity-50">
-                                CA Bill 234
-                            </h3>
-                            <h1 className="text-3xl font-bold">
-                                Increasing access to Hormone Therapy
-                            </h1>
-                        </div>
-                        <Button
-                            aria-label="clicked"
-                            className="size-12 rounded-full"
-                        >
-                            <Check className="min-w-10" />
-                        </Button>
+                {BILLS.map((bill, index) => (
+                    <div className="space-y-4" key={bill.label + index}>
+                        {bill.label === selectedBill ? (
+                            <div
+                                onClick={() => handleSelect(bill.label)}
+                                className="flex-between p-8 rounded-4xl border-4 border-[#F7F6F9] bg-[#7B5AFF] text-white cursor-pointer"
+                            >
+                                <div className="w-[90%]">
+                                    <div className="flex items-center space-x-2">
+                                        <div className="flex items-center space-x-2 bg-white text-white bg-opacity-15 px-4 py-2 rounded-2xl">
+                                            <Dot className="size-20 -m-8" />
+                                            <p className="font-semibold">
+                                                critical
+                                            </p>
+                                        </div>
+                                        <h3 className="text-xl font-semibold opacity-50">
+                                            {bill.label}
+                                        </h3>
+                                    </div>
+                                    <h1 className="text-3xl font-bold">
+                                        {bill.title}
+                                    </h1>
+                                </div>
+                                <Button
+                                    aria-label="clicked"
+                                    className="size-12 rounded-full bg-white text-black hover:bg-white cursor-pointer"
+                                >
+                                    <Check className="min-w-10" />
+                                </Button>
+                            </div>
+                        ) : (
+                            <div
+                                onClick={() => handleSelect(bill.label)}
+                                className="flex-between p-8 rounded-4xl border-4 border-[#F7F6F9] bg-white cursor-pointer hover:border-blue-500 focus:border-blue-500 focus:outline-none"
+                            >
+                                <div className="w-[90%]">
+                                    <div className="flex items-center space-x-2">
+                                        <div className="flex items-center space-x-2 text-[#CA5AFF] bg-[#CA5AFF] bg-opacity-25 px-4 py-2 rounded-2xl">
+                                            <Dot className="size-20 -m-8" />
+                                            <p className="font-semibold">
+                                                critical
+                                            </p>
+                                        </div>
+                                        <h3 className="text-xl font-semibold opacity-50">
+                                            {bill.label}
+                                        </h3>
+                                    </div>
+                                    <h1 className="text-3xl font-bold">
+                                        {bill.title}
+                                    </h1>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                    <div className="bg-white p-8 rounded-4xl border-4 border-white hover:border-blue-500 focus:border-blue-500 focus:outline-none">
-                        <h3 className="text-xl font-semibold opacity-50">
-                            CA Bill 234
-                        </h3>
-                        <h1 className="text-3xl font-bold">
-                            Increasing access to Hormone Therapy
-                        </h1>
-                    </div>
-                    <div className="bg-white p-8 rounded-4xl border-4 border-white hover:border-blue-500 focus:border-blue-500 focus:outline-none">
-                        <h3 className="text-xl font-semibold opacity-50">
-                            CA Bill 234
-                        </h3>
-                        <h1 className="text-3xl font-bold">
-                            Increasing access to Hormone Therapy
-                        </h1>
-                    </div>
-                </div>
+                ))}
             </div>
         </div>
     );

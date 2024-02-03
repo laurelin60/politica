@@ -36,7 +36,7 @@ const messages = [
     },
 ];
 
-const Chat = () => {
+const Chat = ({ onSelect }: { onSelect: (billTitle: string) => void }) => {
     const { input, handleInputChange, handleSubmit } = useChat({
         api: "api/gemini/",
     });
@@ -127,7 +127,7 @@ const Chat = () => {
                                     </div>
                                 ) : (
                                     <>
-                                        <AssistantMessage />
+                                        <AssistantMessage onSelect={onSelect} />
                                     </>
                                 )}
                             </div>
