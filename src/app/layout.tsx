@@ -24,7 +24,7 @@ export default function RootLayout({
         <html lang="en">
             <Providers>
                 <body className={inter.className}>
-                    <main>{children}</main>
+                    <main className="bg-jas-light">{children}</main>
                 </body>
             </Providers>
         </html>

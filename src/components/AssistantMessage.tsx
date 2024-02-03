@@ -35,7 +35,9 @@ const AssistantMessage = ({
 
     const handleSelect = (billTitle: string) => {
         onSelect(billTitle);
-        setSelectedBill(billTitle);
+        setSelectedBill((prevBill) =>
+            prevBill == billTitle ? undefined : billTitle,
+        );
     };
 
     return (
@@ -96,7 +98,7 @@ const AssistantMessage = ({
                         ) : (
                             <div
                                 onClick={() => handleSelect(bill.label)}
-                                className="flex-between p-8 rounded-4xl border-4 border-jas-light bg-white cursor-pointer hover:border-jas-purple focus:border-jas-purple focus:outline-none"
+                                className="flex-between p-8 rounded-4xl border-4 border-jas-light bg-white cursor-pointer hover:border-jas-purple hover:bg-jas-purple hover:bg-opacity-10 focus:border-jas-purple focus:outline-none"
                             >
                                 <div className="w-[90%]">
                                     <div className="flex items-center space-x-2">
