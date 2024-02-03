@@ -47,15 +47,17 @@ model Legislator {
   type  MemberType
   party Party
   votes Vote[]
+  bills Bill[]
 }
 
 model Bill {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  billId   String  @unique
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  billId   String     @unique
   measure  String
   subject  String
   status   String
-  author   String
+  author   Legislator @relation(fields: [authorId], references: [id])
+  authorId String     @db.ObjectId
   fullText String
   summary  String?
   votes    Vote[]
