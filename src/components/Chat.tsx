@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 // import ActionCard from "@/components/ActionCard";
 // import ActionItem from "@/components/ActionItem";
-// import AssistantChatBubble from "@/components/AssistantChatBubble";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +10,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 // import { SelfLoveTag } from "@/components/ui/tag";
 import { useChat } from "ai/react";
 import { Loader2, Mic, Send } from "lucide-react";
+
+import AssistantMessage from "./AssistantMessage";
 
 export type Action = {
     title: string;
@@ -68,9 +69,9 @@ const Chat = () => {
 
     return (
         <div className="h-full flex justify-between gap-x-8 w-full">
-            <div className="flex-col w-full relative mb-16">
+            <div className="flex-col w-full relative mb-8">
                 <ScrollArea
-                    className="flex flex-col space-y-4 h-[600px] min-w-full rounded-md max-w-fit pr-8"
+                    className="flex flex-col space-y-4 h-[700px] min-w-full max-w-fit py-2 pr-4 bg-white rounded-4xl"
                     id="messageContainer"
                 >
                     <div
@@ -130,7 +131,7 @@ const Chat = () => {
                                     </div>
                                 ) : (
                                     <>
-                                        <div>hello</div>
+                                        <AssistantMessage />
                                     </>
                                 )}
                             </div>
@@ -140,7 +141,7 @@ const Chat = () => {
 
                 <form
                     onSubmit={handleSubmit}
-                    className="absolute bottom-0 w-full flex flex-row gap-x-4 h-[100px]"
+                    className="absolute bottom-0 w-full flex flex-row gap-x-4 h-20"
                 >
                     <Input
                         value={input}
@@ -149,18 +150,15 @@ const Chat = () => {
                         className="input-form w-[calc(100%-200px)] py-6 text-xl bg-jas-grey_light h-full rounded-3xl border-2 hover:border-blue-500 focus:border-blue-500 focus:outline-none"
                     />
 
-                    <Button
-                        type="submit"
-                        className="h-[100px] w-[100px] rounded-3xl"
-                    >
-                        <Mic className="size-11" />
+                    <Button type="submit" className="h-20 w-20 rounded-3xl">
+                        <Mic className="size-9" />
                     </Button>
 
                     <Button
                         type="submit"
-                        className="h-[100px] aspect-square rounded-3xl"
+                        className="h-20 aspect-square rounded-3xl"
                     >
-                        <Send className="size-11" />
+                        <Send className="size-9" />
                     </Button>
                 </form>
             </div>
