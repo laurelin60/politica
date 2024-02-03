@@ -8,7 +8,7 @@ const Page = () => {
     const [bill, setBill] = useState<string>();
 
     const handleSelect = (billTitle: string) => {
-        setBill(billTitle);
+        setBill((prevBill) => (prevBill == billTitle ? undefined : billTitle));
     };
 
     return (
