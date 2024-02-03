@@ -4,6 +4,14 @@ import { Dot, Lightbulb, Zap } from "lucide-react";
 import ActionCarousel from "./ActionCarousel";
 
 const Actions = ({ bill }: { bill: string | undefined }) => {
+    if (bill == undefined) {
+        return (
+            <div className="flex-center w-full h-full">
+                <img src="./raccoon.png" className="object-cover w-[400px]" />
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-5 h-full flex flex-col">
             <div className="flex items-center space-x-4">

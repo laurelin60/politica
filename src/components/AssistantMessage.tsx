@@ -35,7 +35,9 @@ const AssistantMessage = ({
 
     const handleSelect = (billTitle: string) => {
         onSelect(billTitle);
-        setSelectedBill(billTitle);
+        setSelectedBill((prevBill) =>
+            prevBill == billTitle ? undefined : billTitle,
+        );
     };
 
     return (
