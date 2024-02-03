@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,11 +9,6 @@ import { useChat } from "ai/react";
 import { Loader2, Mic, Send } from "lucide-react";
 
 import AssistantMessage from "./AssistantMessage";
-
-export type Action = {
-    title: string;
-    items: [{ title: string; tag: string; link: string }];
-};
 
 const messages = [
     { id: 1, role: "user", content: "What should I eat?" },
@@ -61,8 +56,6 @@ const Chat = () => {
 
         return () => scrollIntoViewInterval();
     }, [messages]);
-
-    const [actions, setActions] = useState<Action[]>([]);
 
     return (
         <div className="h-full flex justify-between gap-x-8 w-full">
