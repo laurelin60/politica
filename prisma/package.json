@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "db:seed": "ts-node ./seed.ts"
+  },
   "prisma": {
     "seed": "ts-node ./seed.ts"
   }
