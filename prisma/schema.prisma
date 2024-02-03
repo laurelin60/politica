@@ -42,12 +42,14 @@ model Vote {
 }
 
 model Legislator {
-  id    String     @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
-  type  MemberType
-  party Party
-  votes Vote[]
-  bills Bill[]
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  name       String     @unique
+  type       MemberType
+  pictureUrl String
+  party      Party
+  district   Int
+  votes      Vote[]
+  bills      Bill[]
 }
 
 model Bill {
@@ -56,9 +58,9 @@ model Bill {
   measure  String
   subject  String
   status   String
-  author   Legislator @relation(fields: [authorId], references: [id])
-  authorId String     @db.ObjectId
   fullText String
   summary  String?
+  author   Legislator @relation(fields: [authorId], references: [id])
+  authorId String     @db.ObjectId
   votes    Vote[]
 }
