@@ -87,21 +87,16 @@ const Chat = ({ onSelect }: { onSelect: (billTitle: string) => void }) => {
                                                     You
                                                 </span>
                                             </div>
-                                            <div className="p-4 rounded-[24px] border-4 border-[#817D88] text-white bg-[#817D88]">
+                                            <div className="p-4 rounded-[24px] border-4 border-jas-dark text-white bg-jas-dark">
                                                 <p className="font-semibold text-xl">
                                                     {m.content}
                                                 </p>
                                             </div>
-                                            {/* <div className="text-black text-opacity-50 font-semibold flex-nowrap break-words max-w-[400px]">
-                                                <span className="min-w-0">
-                                                    {m.content}
-                                                </span>
-                                            </div> */}
                                         </div>
 
                                         {index == messages.length - 1 &&
                                             m.role == "user" && (
-                                                <div className="bg-[#D3D8DC] rounded-xl p-4 flex flex-row gap-x-2">
+                                                <div className="bg-jas-light rounded-xl p-4 flex flex-row gap-x-2">
                                                     <Avatar className="size-8">
                                                         <AvatarImage
                                                             src="https://studentcouncil.ics.uci.edu/assets/img/logo.svg"
@@ -142,7 +137,7 @@ const Chat = ({ onSelect }: { onSelect: (billTitle: string) => void }) => {
                         value={input}
                         placeholder="enter a bill that..."
                         onChange={handleInputChange}
-                        className="input-form w-[calc(100%-160px)] bg-[#ECECEC] py-6 text-xl text-opacity-60 text-black h-full rounded-3xl border-2 active:ring-black active:ring-opacity-60"
+                        className="input-form w-[calc(100%-160px)] bg-[#ECECEC] py-6 text-xl text-opacity-70 text-black h-full rounded-3xl border-2 active:ring-black active:ring-opacity-60"
                     />
 
                     <Button
@@ -154,7 +149,7 @@ const Chat = ({ onSelect }: { onSelect: (billTitle: string) => void }) => {
 
                     <Button
                         type="submit"
-                        className="h-20 aspect-square rounded-3xl bg-[#7B5AFF]"
+                        className="h-20 aspect-square rounded-3xl bg-jas-purple"
                     >
                         <Send className="size-9" />
                     </Button>

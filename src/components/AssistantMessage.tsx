@@ -53,10 +53,10 @@ const AssistantMessage = ({
                 </span>
             </div>
 
-            <div className="space-y-2 bg-[#F7F6F9] p-6 rounded-3xl">
+            <div className="space-y-2 bg-jas-light p-6 rounded-3xl">
                 <div className="flex items-center space-x-2 px-2">
-                    <div className="bg-[#7B5AFF] bg-opacity-25 rounded-xl p-2">
-                        <FileText className="text-[#7B5AFF] stroke-[#7B5AFF] fill-primary-popover   " />
+                    <div className="bg-jas-purple bg-opacity-25 rounded-xl p-2">
+                        <FileText className="text-jas-purple stroke-jas-purple fill-primary-popover   " />
                     </div>
                     <h6 className="font-bold text-xl text-opacity-75">
                         Check out these bills
@@ -68,7 +68,7 @@ const AssistantMessage = ({
                         {bill.label === selectedBill ? (
                             <div
                                 onClick={() => handleSelect(bill.label)}
-                                className="flex-between p-8 rounded-4xl border-4 border-[#F7F6F9] bg-[#7B5AFF] text-white cursor-pointer"
+                                className="flex-between p-8 rounded-4xl border-4 border-jas-light bg-jas-purple text-white cursor-pointer"
                             >
                                 <div className="w-[90%]">
                                     <div className="flex items-center space-x-2">
@@ -96,11 +96,11 @@ const AssistantMessage = ({
                         ) : (
                             <div
                                 onClick={() => handleSelect(bill.label)}
-                                className="flex-between p-8 rounded-4xl border-4 border-[#F7F6F9] bg-white cursor-pointer hover:border-blue-500 focus:border-blue-500 focus:outline-none"
+                                className="flex-between p-8 rounded-4xl border-4 border-jas-light bg-white cursor-pointer hover:border-jas-purple focus:border-jas-purple focus:outline-none"
                             >
                                 <div className="w-[90%]">
                                     <div className="flex items-center space-x-2">
-                                        <div className="flex items-center space-x-2 text-[#CA5AFF] bg-[#CA5AFF] bg-opacity-25 px-4 py-2 rounded-2xl">
+                                        <div className="flex items-center space-x-2 text-jas-pink bg-jas-pink bg-opacity-25 px-4 py-2 rounded-2xl">
                                             <Dot className="size-20 -m-8" />
                                             <p className="font-semibold">
                                                 critical
