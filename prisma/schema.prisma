@@ -35,34 +35,32 @@ model User {
 model Vote {
   id           String     @id @default(auto()) @map("_id") @db.ObjectId
   vote         VoteType
-  Legislator   Legislator @relation(fields: [legislatorId], references: [id])
+  legislator   Legislator @relation(fields: [legislatorId], references: [id])
   legislatorId String     @db.ObjectId
-  Bill         Bill       @relation(fields: [billId], references: [id])
+  bill         Bill       @relation(fields: [billId], references: [id])
   billId       String     @db.ObjectId
 }
 
 model Legislator {
   id         String         @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
+  name       String         @unique
   type       LegislatorType
   pictureUrl String
   party      Party
   district   Int
   votes      Vote[]
   bills      Bill[]
-
-  @@unique([name, type, district])
 }
 
 model Bill {
-  id       String     @id @default(auto()) @map("_id") @db.ObjectId
-  billId   String     @unique
+  id       String      @id @default(auto()) @map("_id") @db.ObjectId
+  billId   String      @unique
   measure  String
   subject  String
   status   String
   fullText String
   summary  String?
-  author   Legislator @relation(fields: [authorId], references: [id])
-  authorId String     @db.ObjectId
+  author   Legislator? @relation(fields: [authorId], references: [id])
+  authorId String?     @db.ObjectId
   votes    Vote[]
 }

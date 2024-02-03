@@ -3,6 +3,6 @@
     "db:seed": "tsx seed.ts"
   },
   "prisma": {
-    "seed": "tsx ./seed.ts"
+    "seed": "tsx seed.ts"
   }
 }
