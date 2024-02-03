@@ -87,10 +87,9 @@ const Chat = ({ onSelect }: { onSelect: (billTitle: string) => void }) => {
                                                     You
                                                 </span>
                                             </div>
-                                            <div className="p-8 rounded-4xl border-4 border-[#817D88] text-white bg-[#817D88]">
+                                            <div className="p-4 rounded-[24px] border-4 border-[#817D88] text-white bg-[#817D88]">
                                                 <p className="font-semibold text-xl">
-                                                    where can I find support to
-                                                    access HRT?
+                                                    {m.content}
                                                 </p>
                                             </div>
                                             {/* <div className="text-black text-opacity-50 font-semibold flex-nowrap break-words max-w-[400px]">
