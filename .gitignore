@@ -36,3 +36,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 scrapers/bills.json
+data/assembly.json
+data/bills.json
+data/senators.json
