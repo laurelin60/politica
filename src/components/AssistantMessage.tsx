@@ -1,17 +1,32 @@
-import React from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Check, FileText } from "lucide-react";
 
 import { Button } from "./ui/button";
 
 const AssistantMessage = () => {
     return (
-        <>
+        <div className="space-y-4">
+            <div className="flex items-center gap-x-2 flex-row">
+                <Avatar className="size-10">
+                    <AvatarImage
+                        src="https://github.com/shadcn.png"
+                        alt="@shadcn"
+                    />
+                    <AvatarFallback>P</AvatarFallback>
+                </Avatar>
+                <span className="font-bold text-2xl">
+                    Your personal assistant
+                </span>
+            </div>
+
             <div className="space-y-2 bg-[#F7F6F9] p-6 rounded-3xl">
                 <div className="flex items-center space-x-2 px-2">
                     <div className="bg-[#7B5AFF] bg-opacity-25 rounded-xl p-2">
                         <FileText className="text-[#7B5AFF] stroke-[#7B5AFF] fill-primary-popover   " />
                     </div>
-                    <h6 className="font-bold text-xl">Check out these bills</h6>
+                    <h6 className="font-bold text-xl text-opacity-75">
+                        Check out these bills
+                    </h6>
                 </div>
 
                 <div className="space-y-4">
@@ -49,7 +64,7 @@ const AssistantMessage = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
