@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+// import { SelfLoveTag } from "@/components/ui/tag";
 import { useChat } from "ai/react";
 import { Loader2, Mic, Send } from "lucide-react";
 
@@ -16,8 +17,34 @@ export type Action = {
     items: [{ title: string; tag: string; link: string }];
 };
 
+const messages = [
+    { id: 1, role: "user", content: "What should I eat?" },
+    {
+        id: 2,
+        role: "ai",
+        content:
+            "Eat plenty of foods filled with antioxidants, like strawberries.",
+    },
+    {
+        id: 3,
+        role: "ai",
+        content: "Eat chiken.",
+    },
+    {
+        id: 4,
+        role: "user",
+        content: "Eat chiken.",
+    },
+    {
+        id: 5,
+        role: "ai",
+        content:
+            "Eat plenty of foods filled with antioxidants, like fasdfasiuefhasdkj fasdskjfhadskjfhadskjfh.",
+    },
+];
+
 const Chat = () => {
-    const { messages, input, handleInputChange, handleSubmit } = useChat({
+    const { input, handleInputChange, handleSubmit } = useChat({
         api: "api/gemini/",
     });
 
@@ -40,8 +67,77 @@ const Chat = () => {
     const [actions, setActions] = useState<Action[]>([]);
 
     return (
-        <div className="h-full flex justify-between gap-x-8">
+        <div className="h-full flex justify-between gap-x-8 w-full">
             <div className="flex-col w-full relative mb-16">
+                <ScrollArea
+                    className="flex flex-col space-y-4 h-[600px] min-w-full rounded-md max-w-fit pr-8"
+                    id="messageContainer"
+                >
+                    <div
+                        className="space-y-4 justify-start items-start flex flex-col w-full"
+                        ref={ref}
+                    >
+                        {messages.map((m, index) => (
+                            <div key={m.id}>
+                                {m.role === "user" ? (
+                                    <div className="space-y-4">
+                                        <div className="bg-jas-grey_light rounded-xl p-4 flex flex-col gap-y-2">
+                                            <div className="flex items-center gap-x-2 flex-row">
+                                                <Avatar className="size-8">
+                                                    <AvatarImage
+                                                        src="https://github.com/shadcn.png"
+                                                        alt="@shadcn"
+                                                    />
+                                                    <AvatarFallback>
+                                                        M
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                                <span className="font-bold text-xl">
+                                                    you
+                                                </span>
+                                            </div>
+                                            <div className="text-black text-opacity-50 font-semibold flex-nowrap break-words max-w-[400px]">
+                                                <span className="min-w-0">
+                                                    {m.content}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {index == messages.length - 1 &&
+                                            m.role == "user" && (
+                                                <div className="bg-[#D3D8DC] rounded-xl p-4 flex flex-row gap-x-2">
+                                                    <Avatar className="size-8">
+                                                        <AvatarImage
+                                                            src="https://studentcouncil.ics.uci.edu/assets/img/logo.svg"
+                                                            alt="@icssc"
+                                                        />
+                                                        <AvatarFallback>
+                                                            A
+                                                        </AvatarFallback>
+                                                    </Avatar>
+                                                    <div className="flex gap-y-2 flex-col">
+                                                        <div className="flex items-center gap-x-2 flex-row">
+                                                            <span className="font-bold text-xl">
+                                                                Your personal
+                                                                assistant
+                                                            </span>
+                                                        </div>
+
+                                                        <Loader2 className="animate-spin mx-auto" />
+                                                    </div>
+                                                </div>
+                                            )}
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div>hello</div>
+                                    </>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </ScrollArea>
+
                 <form
                     onSubmit={handleSubmit}
                     className="absolute bottom-0 w-full flex flex-row gap-x-4 h-[100px]"
