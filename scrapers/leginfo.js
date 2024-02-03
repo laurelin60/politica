@@ -1,6 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs');
+const chalk = require('chalk');
 
 async function fetchAndProcessBills() {
     const mainUrl = 'https://leginfo.legislature.ca.gov/faces/billSearchClient.xhtml?session_year=20232024&house=Both&author=All&lawCode=All';
@@ -24,48 +25,64 @@ async function fetchAndProcessBills() {
             bills.push({ measure, billId, billName, author, status });
         }
     });
-    let idx = 0;
-    for (const bill of bills) {
-        let attempts = 0;
-        while (attempts < 5) {
-            try {
-                const billTextResponse = await axios.get(`${billTextBaseUrl}${bill.billId}`);
-                const billText$ = cheerio.load(billTextResponse.data);
-                bill.billText = billText$('#bill_all').text().replaceAll('  ', '');
 
-                const billVotesResponse = await axios.get(`${billVotesBaseUrl}${bill.billId}`);
-                const billVotes$ = cheerio.load(billVotesResponse.data);
-                bill.voteInfo = [];
-
-                billVotes$('#j_idt189 > div').children().each((_, element) => {
-                    const statusRows = billVotes$(element).children('.statusRow');
-                    const currVote = {};
-
-                    statusRows.each((_, row) => {
-                        const key = billVotes$(row).children().eq(0).text().trim();
-                        const val = billVotes$(row).children().eq(1).text().trim();
-
-                        if (key === 'Ayes' || key === 'Noes' || key === 'NVR') {
-                            currVote[key] = val.split(', ');
-                            if (currVote[key].length === 1 && currVote[key][0] === '') currVote[key] = [];
-                        } else {
-                            currVote[key] = val;
-                        }
-                    });
-
-                    bill.voteInfo.push(currVote);
-                });
-                console.log(`Processed bill ${bill.billName} (${++idx}/${bills.length})`);
-                break; // Break out of attempts loop 
+    const maxConcurrent = 3; // Don't spam them too much 
+    for (let i = 0; i < bills.length; i += maxConcurrent) {
+        const batch = bills.slice(i, i + maxConcurrent);
+        const results = await Promise.allSettled(batch.map(bill => processBill(bill, billTextBaseUrl, billVotesBaseUrl)));
+        results.forEach((result, idx) => {
+            if (result.status === 'fulfilled') {
+                console.log(chalk.greenBright(`Processed bill ${batch[idx].billName} (${i + idx + 1}/${bills.length})`));
             }
-            catch (error) {
-                console.error(`Fetch had a stroke on "${bill.billName}" (${++attempts}/5)`);
+            else {
+                console.error(chalk.redBright(`Failed to process bill ${batch[idx].billName} (${i + idx + 1}/${bills.length})`));
             }
-        }
+        });
     }
 
-    // Write the results to a file
     fs.writeFileSync('bills.json', JSON.stringify(bills));
+}
+
+async function processBill(bill, billTextBaseUrl, billVotesBaseUrl) {
+    let attempts = 0;
+    while (attempts < 5) {
+        try {
+            const billTextResponse = await axios.get(`${billTextBaseUrl}${bill.billId}`);
+            const billText$ = cheerio.load(billTextResponse.data);
+            bill.billText = billText$('#bill_all').text().replaceAll('  ', '');
+            bill.date = billText$('#bill_intro_date').text().trim();
+
+            const billVotesResponse = await axios.get(`${billVotesBaseUrl}${bill.billId}`);
+            const billVotes$ = cheerio.load(billVotesResponse.data);
+            bill.voteInfo = [];
+
+            billVotes$('.tab_content_sub_non_text').eq(0).children().each((_, element) => {
+                const statusRows = billVotes$(element).children('.statusRow');
+                const currVote = {};
+
+                statusRows.each((_, row) => {
+                    const key = billVotes$(row).children().eq(0).text().trim();
+                    const val = billVotes$(row).children().eq(1).text().trim();
+
+                    if (key === 'Ayes' || key === 'Noes' || key === 'NVR') {
+                        currVote[key] = val.split(', ');
+                        if (currVote[key].length === 1 && currVote[key][0] === '') currVote[key] = [];
+                    } else {
+                        currVote[key] = val;
+                    }
+                });
+
+                bill.voteInfo.push(currVote);
+            });
+            return bill;
+        }
+        catch (error) {
+            attempts++;
+            if (attempts <= 3) console.log(chalk.yellowBright(`Fetch had a stroke on "${bill.billName}" (${++attempts}/5)`));
+            else console.log(chalk.yellow(`Fetch had a stroke on "${bill.billName}" (${++attempts}/5)`));
+            if (attempts >= 5) throw error;
+        }
+    }
 }
 
 fetchAndProcessBills();
