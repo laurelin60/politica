@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { Loader2, Square } from "lucide-react";
 
-export default async function Home() {
+export default function Home() {
     // const { getUser } = getKindeServerSession();
     // const user = await getUser();
 
@@ -16,7 +16,7 @@ export default async function Home() {
     //     : null;
 
     return (
-        <main className="wrapper flex-center text-3xl md:text-5xl font-semibold min-h-[calc(100vh-6rem)]">
+        <main className="wrapper flex-center text-3xl md:text-5xl font-semibold min-h-[100vh]">
             <Link
                 href={"https://github.com/KevinWu098/kTemp"}
                 target="_blank"
