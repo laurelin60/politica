@@ -49,11 +49,15 @@ async function seedSenators() {
     const json = JSON.parse(fs.readFileSync("./data/senators.json", "utf-8"));
     const senators = json["senators"] as Legislator[];
 
+    senators.map(senator => (
+        console.log(senator.district)
+    ));
+
     await db.legislator.createMany({
         data: senators.map(senator => ({
             name: senator.name,
             party: senator.party as $Enums.Party,
-            type: "Senator" as $Enums.LegislatorType,
+            type: "Senate" as $Enums.LegislatorType,
             district: parseInt(senator.district),
             pictureUrl: senator.pfpUrl
         }))
