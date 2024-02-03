@@ -17,29 +17,10 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
 
 const model = genAI.getGenerativeModel({ model: "gemini-pro", safetySettings });
 
-function sectionString(str, maxLength) {
-    const sections = [];
-    let startIndex = 0;
-
-    while (startIndex < str.length) {
-        let endIndex = startIndex + maxLength;
-        while (endIndex < str.length && !/\s/.test(str[endIndex])) {
-            endIndex++;
-        }
-        sections.push(str.slice(startIndex, endIndex));
-        startIndex = endIndex;
-    }
-
-    return sections;
-}
-
-export default async function callGemini(prompt, charLimit = 160) {
+export default async function callGemini(prompt) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    const text = response.text();
-
-    const sections = sectionString(text, charLimit - 6);
-    return sections.map((section, i) => `${section.trim()} (${i + 1}/${sections.length})`);
+    return response.text();
 }
 
 const res = await callGemini("tell me about gays");
