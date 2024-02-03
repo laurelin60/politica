@@ -11,5 +11,5 @@
         "project": ["./tsconfig.json"],
         "sourceType": "module"
     },
-    "ignorePatterns": ["postcss.config.js", "tailwind.config.ts", "next.config.js"]
+    "ignorePatterns": ["postcss.config.js", "tailwind.config.ts", "next.config.js", "prisma/seed.ts"]
 }
