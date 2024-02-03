@@ -72,13 +72,13 @@ const AssistantMessage = ({
                             >
                                 <div className="w-[90%]">
                                     <div className="flex items-center space-x-2">
-                                        <div className="flex items-center space-x-2 bg-white text-white bg-opacity-15 px-4 py-2 rounded-2xl">
+                                        <div className="flex items-center space-x-2 bg-white text-white bg-opacity-25 px-4 py-2 rounded-2xl">
                                             <Dot className="size-20 -m-8" />
                                             <p className="font-semibold">
                                                 critical
                                             </p>
                                         </div>
-                                        <h3 className="text-xl font-semibold opacity-50">
+                                        <h3 className="text-xl font-semibold opacity-75">
                                             {bill.label}
                                         </h3>
                                     </div>
