@@ -36,7 +36,7 @@ const messages = [
     },
 ];
 
-const Chat = () => {
+const Chat = ({ onSelect }: { onSelect: (billTitle: string) => void }) => {
     const { input, handleInputChange, handleSubmit } = useChat({
         api: "api/gemini/",
     });
@@ -87,22 +87,16 @@ const Chat = () => {
                                                     You
                                                 </span>
                                             </div>
-                                            <div className="p-8 rounded-4xl border-4 border-[#817D88] text-white bg-[#817D88]">
+                                            <div className="p-4 rounded-[24px] border-4 border-jas-dark text-white bg-jas-dark">
                                                 <p className="font-semibold text-xl">
-                                                    where can I find support to
-                                                    access HRT?
+                                                    {m.content}
                                                 </p>
                                             </div>
-                                            {/* <div className="text-black text-opacity-50 font-semibold flex-nowrap break-words max-w-[400px]">
-                                                <span className="min-w-0">
-                                                    {m.content}
-                                                </span>
-                                            </div> */}
                                         </div>
 
                                         {index == messages.length - 1 &&
                                             m.role == "user" && (
-                                                <div className="bg-[#D3D8DC] rounded-xl p-4 flex flex-row gap-x-2">
+                                                <div className="bg-jas-light rounded-xl p-4 flex flex-row gap-x-2">
                                                     <Avatar className="size-8">
                                                         <AvatarImage
                                                             src="https://studentcouncil.ics.uci.edu/assets/img/logo.svg"
@@ -127,7 +121,7 @@ const Chat = () => {
                                     </div>
                                 ) : (
                                     <>
-                                        <AssistantMessage />
+                                        <AssistantMessage onSelect={onSelect} />
                                     </>
                                 )}
                             </div>
@@ -143,16 +137,19 @@ const Chat = () => {
                         value={input}
                         placeholder="enter a bill that..."
                         onChange={handleInputChange}
-                        className="input-form w-[calc(100%-200px)] py-6 text-xl bg-jas-grey_light h-full rounded-3xl border-2 hover:border-blue-500 focus:border-blue-500 focus:outline-none"
+                        className="input-form w-[calc(100%-160px)] bg-[#ECECEC] py-6 text-xl text-opacity-70 text-black h-full rounded-3xl border-2 active:ring-black active:ring-opacity-60"
                     />
 
-                    <Button type="submit" className="h-20 w-20 rounded-3xl">
+                    <Button
+                        type="submit"
+                        className="h-20 w-20 rounded-3xl bg-[#D5D5D5] text-[#6C6C6C]"
+                    >
                         <Mic className="size-9" />
                     </Button>
 
                     <Button
                         type="submit"
-                        className="h-20 aspect-square rounded-3xl"
+                        className="h-20 aspect-square rounded-3xl bg-jas-purple"
                     >
                         <Send className="size-9" />
                     </Button>
