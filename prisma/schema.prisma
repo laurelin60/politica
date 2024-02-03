@@ -27,10 +27,10 @@ enum VoteType {
   Nvr
 }
 
-// model User {
-//   id    String @id @default(auto()) @map("_id") @db.ObjectId
-//   email String @unique
-// }
+model User {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+}
 
 model Vote {
   id           String     @id @default(auto()) @map("_id") @db.ObjectId
@@ -51,11 +51,11 @@ model Legislator {
 
 model Bill {
   id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  billId   String  @unique
   measure  String
   subject  String
   status   String
   author   String
-  billId   String
   fullText String
   summary  String?
   votes    Vote[]

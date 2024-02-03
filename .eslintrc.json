@@ -10,5 +10,6 @@
     "parserOptions": {
         "project": ["./tsconfig.json"],
         "sourceType": "module"
-    }
+    },
+    "ignorePatterns": ["postcss.config.js", "tailwind.config.ts", "next.config.js"]
 }
