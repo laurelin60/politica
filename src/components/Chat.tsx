@@ -142,14 +142,14 @@ const Chat = ({ onSelect }: { onSelect: (billTitle: string) => void }) => {
 
                     <Button
                         type="submit"
-                        className="h-20 w-20 rounded-3xl bg-[#D5D5D5] text-[#6C6C6C]"
+                        className="h-20 w-20 rounded-3xl bg-[#D5D5D5] text-[#6C6C6C] hover:bg-[#D5D5D5]/80"
                     >
                         <Mic className="size-9" />
                     </Button>
 
                     <Button
                         type="submit"
-                        className="h-20 aspect-square rounded-3xl bg-jas-purple"
+                        className="h-20 aspect-square rounded-3xl bg-jas-purple hover:bg-jas-purple/80"
                     >
                         <Send className="size-9" />
                     </Button>
