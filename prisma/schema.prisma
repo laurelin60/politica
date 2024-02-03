@@ -43,13 +43,15 @@ model Vote {
 
 model Legislator {
   id         String         @id @default(auto()) @map("_id") @db.ObjectId
-  name       String         @unique
+  name       String
   type       LegislatorType
   pictureUrl String
   party      Party
   district   Int
   votes      Vote[]
   bills      Bill[]
+
+  @@unique([name, type, district])
 }
 
 model Bill {

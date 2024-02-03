@@ -1,7 +1,3 @@
-// const { db } = require("../src/db");
-// const fs = require("fs");
-// const { $Enums } = require("@prisma/client");
-
 import { db } from "@/db";
 import fs from "fs";
 import { $Enums } from "@prisma/client";
@@ -37,67 +33,85 @@ type Bill = {
 }
 
 
-// async function seedAssembly() {
-//     const assembly = JSON.parse(fs.readFileSync("./data/assembly.json", "utf-8"));
-//
-//     await db.legislator.create({
-//         data: {}
-//     });
-// }
+async function seedAssembly() {
+    const json = JSON.parse(fs.readFileSync("./data/assembly.json", "utf-8"));
+    const assembly = json["assemblymembers"] as Legislator[];
+
+    await db.legislator.createMany({
+        data: assembly.map(member => ({
+            name: member.name,
+            party: member.party as $Enums.Party,
+            type: "Assembly" as $Enums.LegislatorType,
+            district: parseInt(member.district),
+            pictureUrl: member.pfpUrl
+        }))
+    });
+}
 
 async function seedSenators() {
     const json = JSON.parse(fs.readFileSync("./data/senators.json", "utf-8"));
     const senators = json["senators"] as Legislator[];
 
-    senators.map(senator => (
-        console.log(senator.district)
-    ));
+    // await db.legislator.createMany({
+    //     data: senators.map(senator => ({
+    //         name: senator.name,
+    //         party: senator.party as $Enums.Party,
+    //         type: "Senate" as $Enums.LegislatorType,
+    //         district: parseInt(senator.district),
+    //         pictureUrl: senator.pfpUrl
+    //     }))
+    // });
 
-    await db.legislator.createMany({
-        data: senators.map(senator => ({
-            name: senator.name,
-            party: senator.party as $Enums.Party,
-            type: "Senate" as $Enums.LegislatorType,
-            district: parseInt(senator.district),
-            pictureUrl: senator.pfpUrl
-        }))
-    });
+    senators.map(async senator => {
+        console.log(senator.name)
+        await db.legislator.create({
+            data: {
+                name: senator.name,
+                party: senator.party as $Enums.Party,
+                type: "Senate" as $Enums.LegislatorType,
+                district: parseInt(senator.district),
+                pictureUrl: senator.pfpUrl
+            }
+        });
+    })
 }
 
-//
-// async function seedBills() {
-//     const bills = JSON.parse(fs.readFileSync("./data/bills.json", "utf-8")) as Bill[];
-//
-//     for (const bill of bills) {
-//         await db.bill.create({
-//             data: {
-//                 billId: bill.billId,
-//                 measure: bill.measure,
-//                 subject: bill.billName,
-//                 status: bill.status,
-//                 fullText: bill.billText,
-//                 author: {
-//                     connectOrCreate: {
-//                         where: {
-//                             name: bill.author
-//                         },
-//                         create: {
-//                             name: bill.author
-//                         }
-//                     }
-//                 }
-//             }
-//         });
-//     }
-// }
-//
-// async function seedVotes() {
-//
-// }
+
+async function seedBills() {
+    const bills = JSON.parse(fs.readFileSync("./data/bills.json", "utf-8")) as Bill[];
+
+    for (const bill of bills) {
+        await db.bill.create({
+            data: {
+                billId: bill.billId,
+                measure: bill.measure,
+                subject: bill.billName,
+                status: bill.status,
+                fullText: bill.billText,
+                author: {
+                    connect: {
+                        name: bill.author
+                    }
+                },
+                votes: {
+                    createMany: {
+                        data: [
+
+                        ]
+                    }
+                }
+            }
+        });
+    }
+}
+
+async function seedVotes() {
+
+}
 
 async function seed() {
+    await seedAssembly();
     await seedSenators();
-    // await seedAssembly();
     // await seedBills();
     // await seedVotes();
 }
