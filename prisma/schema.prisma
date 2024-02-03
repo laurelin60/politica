@@ -11,7 +11,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-enum MemberType {
+enum LegislatorType {
   Senate
   Assembly
 }
@@ -42,9 +42,9 @@ model Vote {
 }
 
 model Legislator {
-  id         String     @id @default(auto()) @map("_id") @db.ObjectId
-  name       String     @unique
-  type       MemberType
+  id         String         @id @default(auto()) @map("_id") @db.ObjectId
+  name       String         @unique
+  type       LegislatorType
   pictureUrl String
   party      Party
   district   Int

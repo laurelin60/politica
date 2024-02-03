@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "db:seed": "ts-node ./seed.ts"
+    "db:seed": "tsx seed.ts"
   },
   "prisma": {
-    "seed": "ts-node ./seed.ts"
+    "seed": "tsx ./seed.ts"
   }
 }

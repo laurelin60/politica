@@ -2,10 +2,9 @@
   "name": "ktemp",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "build": "next build",
-    "db:seed": "tsx ./prisma/seed.ts",
+    "db:seed": "ts-node --esm prisma/seed.ts",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
