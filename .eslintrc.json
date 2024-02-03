@@ -1,3 +1,15 @@
 {
-    "parser": "@babel/eslint-parser"
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    ],
+    "parserOptions": {
+        "project": ["./tsconfig.json"],
+        "sourceType": "module"
+    },
+    "ignorePatterns": ["postcss.config.js", "tailwind.config.ts", "next.config.js"]
 }

@@ -21,14 +21,20 @@ enum Party {
   Republican
 }
 
-// model User {
-//   id    String @id @default(auto()) @map("_id") @db.ObjectId
-//   email String @unique
-// }
+enum VoteType {
+  Aye
+  Nay
+  Nvr
+}
+
+model User {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+}
 
 model Vote {
   id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  vote         Boolean // true for aye, false for nay
+  vote         VoteType
   Legislator   Legislator @relation(fields: [legislatorId], references: [id])
   legislatorId String     @db.ObjectId
   Bill         Bill       @relation(fields: [billId], references: [id])
@@ -44,13 +50,13 @@ model Legislator {
 }
 
 model Bill {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  measure   String
-  subject   String
-  status    String
-  author    String
-  sourceUrl String
-  fullText  String
-  summary   String?
-  votes     Vote[]
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  billId   String  @unique
+  measure  String
+  subject  String
+  status   String
+  author   String
+  fullText String
+  summary  String?
+  votes    Vote[]
 }
