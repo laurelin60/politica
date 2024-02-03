@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider     = "mysql"
+  provider     = "mongodb"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
@@ -11,7 +11,46 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id    String @id @unique // kinde user id
-  email String @unique
+enum MemberType {
+  Senate
+  Assembly
+}
+
+enum Party {
+  Democrat
+  Republican
+}
+
+// model User {
+//   id    String @id @default(auto()) @map("_id") @db.ObjectId
+//   email String @unique
+// }
+
+model Vote {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  vote         Boolean // true for aye, false for nay
+  Legislator   Legislator @relation(fields: [legislatorId], references: [id])
+  legislatorId String     @db.ObjectId
+  Bill         Bill       @relation(fields: [billId], references: [id])
+  billId       String     @db.ObjectId
+}
+
+model Legislator {
+  id    String     @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  type  MemberType
+  party Party
+  votes Vote[]
+}
+
+model Bill {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  measure   String
+  subject   String
+  status    String
+  author    String
+  sourceUrl String
+  fullText  String
+  summary   String?
+  votes     Vote[]
 }
