@@ -45,7 +45,6 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.05, ease: "easeOut" }}
             >
-                {" "}
                 <div className="hero">
                     <div className="container">
                         {/* background image */}
@@ -111,9 +110,9 @@ export default function Home() {
                                                 }}
                                                 style={{
                                                     color:
-                                                        word != "Action"
+                                                        word === "Action"
                                                             ? "#7B5AFF"
-                                                            : "",
+                                                            : "#7B5AFF",
                                                 }}
                                             >
                                                 <h1>{word}</h1>
@@ -144,13 +143,13 @@ export default function Home() {
                                     >
                                         <button
                                             className="secondary"
-                                            style={{ fontSize: "24px" }}
+                                            style={{ fontSize: "28px" }}
                                         >
                                             Demo
                                         </button>
                                         <button
                                             className="primary"
-                                            style={{ fontSize: "24px" }}
+                                            style={{ fontSize: "28px" }}
                                         >
                                             Start now
                                         </button>
@@ -253,42 +252,58 @@ export default function Home() {
                                     <img src="./holisticPolitica.svg" alt="" />
                                 </div>
                                 <div className="cta">
-                                    <div style={{display: 'flex', flexDirection:'column', gap: '12px'}}>
-                                      <h1>
-                                        <span>Start leading</span> the voice
-                                        behind legislation.
-                                    </h1>
-                                    <p>
-                                        No waiting, no confusing, just pure
-                                        action and impact.
-                                    </p>  
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            gap: "12px",
+                                        }}
+                                    >
+                                        <h1>
+                                            <span>Start leading</span> the voice
+                                            behind legislation.
+                                        </h1>
+                                        <p>
+                                            No waiting, no confusing, just pure
+                                            action and impact.
+                                        </p>
                                     </div>
-                                    
+
                                     <div
                                         style={{
                                             width: "100%",
                                             justifyContent: "center",
-                                            alignContent: 'center',
-                                            display: 'flex'
+                                            alignContent: "center",
+                                            display: "flex",
                                         }}
                                     >
-                                        <button className="primary" style={{fontSize: '24px', marginTop:'36px'}}>
+                                        <button
+                                            className="primary"
+                                            style={{
+                                                fontSize: "24px",
+                                                marginTop: "36px",
+                                            }}
+                                        >
                                             Start now
                                         </button>
                                     </div>
                                 </div>
                                 {/* footer */}
-        <div className="footer">
-          <div className="hr border border-gray-300">
-            <hr />{" "}
-          </div>
-          <p
-            className="font-semibold flex flex-center justify-center items-center text-center p-5"
-            style={{ width: "100vw", borderTop: "4px solid #D8DBE3" }}
-          >
-            made with 💖 & lots of ☕️ @ UCLA
-          </p>
-        </div>
+                                <div className="footer">
+                                    <div className="hr border border-gray-300">
+                                        <hr />{" "}
+                                    </div>
+                                    <p
+                                        className="font-semibold flex flex-center justify-center items-center text-center p-5"
+                                        style={{
+                                            width: "100vw",
+                                            borderTop: "4px solid #D8DBE3",
+                                        }}
+                                    >
+                                        made with 💖 & lots of ☕️ @ UCLA
+                                    </p>
+                                </div>
+                                {/* <Tag tagName="Key features" /> */}
                             </motion.div>
                         </div>
                     </div>

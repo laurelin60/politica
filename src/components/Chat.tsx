@@ -61,7 +61,7 @@ const Chat = ({ onSelect }: { onSelect: (billTitle: string) => void }) => {
         <div className="h-full flex justify-between gap-x-8 w-full">
             <div className="flex-col w-full relative mb-8">
                 <ScrollArea
-                    className="flex flex-col space-y-4 h-[670px] min-w-full max-w-fit py-2 pr-4 bg-white rounded-4xl"
+                    className="flex flex-col space-y-4 h-[680px] min-w-full max-w-fit py-2 pr-4 bg-white rounded-4xl"
                     id="messageContainer"
                 >
                     <div
@@ -72,7 +72,7 @@ const Chat = ({ onSelect }: { onSelect: (billTitle: string) => void }) => {
                             <div key={m.id}>
                                 {m.role === "user" ? (
                                     <div className="space-y-4">
-                                        <div className="rounded-xl flex flex-col gap-y-2">
+                                        <div className="rounded-t-xl flex flex-col gap-y-2">
                                             <div className="flex items-center gap-x-2 flex-row">
                                                 <Avatar className="size-10">
                                                     <AvatarImage
@@ -131,13 +131,13 @@ const Chat = ({ onSelect }: { onSelect: (billTitle: string) => void }) => {
 
                 <form
                     onSubmit={handleSubmit}
-                    className="absolute bottom-0 w-full flex flex-row gap-x-4 h-20"
+                    className="absolute bottom-0 w-full flex flex-row gap-x-4 h-14"
                 >
                     <Input
                         value={input}
                         placeholder="enter a bill that..."
                         onChange={handleInputChange}
-                        className="input-form w-[calc(100%-80px)] bg-[#ECECEC] py-6 text-xl text-opacity-70 text-black h-full rounded-2xl border-2 active:ring-black active:ring-opacity-60"
+                        className="input-form w-[calc(100%-80px)] bg-[#ECECEC] py-6 text-xl text-opacity-70 text-black h-14 rounded-2xl border-2 active:ring-black active:ring-opacity-60"
                     />
 
                     {/* <Button
@@ -149,7 +149,7 @@ const Chat = ({ onSelect }: { onSelect: (billTitle: string) => void }) => {
 
                     <Button
                         type="submit"
-                        className="h-20 aspect-square rounded-2xl bg-jas-purple hover:bg-jas-purple/80"
+                        className="h-14 aspect-square rounded-2xl bg-jas-purple hover:bg-jas-purple/80"
                     >
                         <Send className="size-9" />
                     </Button>
