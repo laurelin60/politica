@@ -220,15 +220,17 @@ export default function Home() {
                                     <img
                                         src="livePolitica.svg"
                                         style={{ marginBottom: "36px" }}
+                                        className="imgHover"
                                     />
                                     <div
                                         className="flex flex-row"
                                         style={{ gap: "36px" }}
                                     >
-                                        <img src="./leftPolitica.svg" alt="" />
+                                        <img src="./leftPolitica.svg" className="imgHover" />
                                         <img
                                             src="./mobilePolitica.svg"
                                             alt=""
+                                            className="imgHover"
                                         />
                                     </div>
                                 </div>
