@@ -200,7 +200,7 @@ const Page = () => {
                                             value="race"
                                             className="bg-jas-dark font-medium text-base p-5 rounded-xl bg-opacity-25 border-jas-dark border-opacity-25 border-2 hover:border-jas-purple text-jas-dark hover:bg-jas-purple/10 hover:text-jas-purple transition-all"
                                         >
-                                            Race
+                                            Education
                                         </ToggleGroupItem>
                                         <ToggleGroupItem
                                             value="equality"
@@ -218,7 +218,7 @@ const Page = () => {
                                             value="culture"
                                             className="bg-jas-dark font-medium text-base p-5 rounded-xl bg-opacity-25 border-jas-dark border-opacity-25 border-2 hover:border-jas-purple text-jas-dark hover:bg-jas-purple/10 hover:text-jas-purple transition-all"
                                         >
-                                            Culture
+                                            Financial
                                         </ToggleGroupItem>
                                     </ToggleGroup>
 
