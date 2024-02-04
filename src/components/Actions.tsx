@@ -90,7 +90,9 @@ const Actions = ({
                         <div className="flex items-center space-x-2 text-jas-dark">
                             <Dot className="size-8 -m-4" />
                             <a className="font-semibold text-xl hover:underline text-jas-dark"
-                               href={"https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=" + bill.id}>
+                               href={"https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=" + bill.id}
+                               target="_blank">
+                            >
                                 {bill.measure}
                             </a>
                             <ArrowUpRightFromCircle/>
