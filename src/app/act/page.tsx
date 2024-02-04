@@ -58,6 +58,8 @@ const Page = () => {
                 onMouseMove={handleMouseMove}
                 className={cn("max-h-[100vh]", !tutorial && "brightness-50")}
             >
+                <img src="./sideNavPolitica.svg" style={{height: '100vh', position: 'absolute', left: '0', top: '0', zIndex: '2000'}} />
+               
                 <div className={cn("relative")}>
                     <div className="w-full h-[100vh] flex wrapper bg-jas-light py-8 space-x-8">
                         <div className="w-[55%] px-8 bg-white rounded-4xl">
