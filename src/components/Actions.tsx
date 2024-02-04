@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dot, Lightbulb, Zap } from "lucide-react";
 
 import ActionCarousel from "./ActionCarousel";
@@ -18,6 +18,12 @@ const Actions = ({ bill }: { bill: string | undefined }) => {
     const handleRepMode = (state: boolean) => {
         setRepMode(state);
     };
+
+    useEffect(() => {
+        setRepMode(false);
+
+        return () => setRepMode(false);
+    }, [bill]);
 
     return (
         <>
