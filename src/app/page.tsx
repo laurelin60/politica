@@ -32,8 +32,8 @@ export default function Home() {
         visible: { opacity: 1, transition: { staggerChildren: 0.5 } },
     };
     const colorVariants = {
-        Simplifying: { color: "#7B5AFF" },
-        Action: { color: "#7B5AFF" },
+        Simplifying: "#7B5AFF" ,
+        Action: "#7B5AFF" ,
     };
     return (
         <div>
