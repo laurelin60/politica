@@ -12,20 +12,20 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Eye, FileText, Sparkles } from "lucide-react";
+import { /*Eye,*/ FileText, Sparkles } from "lucide-react";
 
 const Page = () => {
     const [bill, setBill] = useState<string>();
-    const [visual, setVisual] = useState(false);
+    // const [visual, setVisual] = useState(false);
     const [adhd, setAdhd] = useState(false);
 
     const handleSelect = (billTitle: string) => {
         setBill((prevBill) => (prevBill == billTitle ? undefined : billTitle));
     };
 
-    const handleVisual = () => {
-        setVisual((prevVisual) => !prevVisual);
-    };
+    // const handleVisual = () => {
+    //     setVisual((prevVisual) => !prevVisual);
+    // };
 
     const handleAdhd = () => {
         setAdhd((prevAdhd) => !prevAdhd);
@@ -42,10 +42,6 @@ const Page = () => {
                 </div>
             </div>
 
-            {/* <Button className="absolute bottom-5 right-5 rounded-full w-16 h-16 bg-jas-purple_light hover:bg-jas-purple/25 border-jas-purple border-2">
-                <Sparkles className="text-jas-purple" fill="#7B5AFF" />
-            </Button> */}
-
             <Dialog>
                 <DialogTrigger className="absolute bottom-5 right-5 rounded-full flex-center w-16 h-16 bg-jas-purple_light hover:bg-jas-purple/25 border-jas-purple border-2">
                     <Sparkles className="text-jas-purple" fill="#7B5AFF" />
@@ -57,7 +53,7 @@ const Page = () => {
                         </DialogTitle>
                         <DialogDescription>
                             <div className="-space-y-2">
-                                <div className="flex space-x-4 bg-white py-6 rounded-3xl flex-between">
+                                {/* <div className="flex space-x-4 bg-white py-6 rounded-3xl flex-between">
                                     <div className="flex space-x-2">
                                         <div className="bg-jas-purple bg-opacity-10 w-fit h-fit p-4 rounded-2xl">
                                             <Eye className="text-jas-purple" />
@@ -77,9 +73,9 @@ const Page = () => {
                                         className="w-20 h-10"
                                         onClick={handleVisual}
                                     />
-                                </div>
+                                </div> */}
                                 <div className="flex space-x-4 bg-white py-6 rounded-3xl flex-between">
-                                    <div className="flex space-x-2">
+                                    <div className="flex space-x-4">
                                         <div className="bg-jas-purple bg-opacity-10 w-fit h-fit p-4 rounded-2xl">
                                             <FileText className="text-jas-purple" />
                                         </div>
