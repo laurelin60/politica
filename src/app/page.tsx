@@ -5,7 +5,7 @@
 // import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 // import { Loader2, Square } from "lucide-react";
 import Nav from "@/components/ui/Nav";
-
+import Link from 'next/link'
 import "./globals.sass";
 
 import Tag from "@/components/ui/Tag";
@@ -145,13 +145,17 @@ export default function Home() {
                                             className="secondary"
                                             style={{ fontSize: "28px" }}
                                         >
-                                            Demo
+                                            <Link href = "/act" >
+                                               Demo
+                                            </Link>
+                                           
                                         </button>
                                         <button
                                             className="primary"
                                             style={{ fontSize: "28px" }}
-                                        >
+                                        > <Link href = "/act" >
                                             Start now
+                                            </Link>
                                         </button>
                                     </div>
                                 </div>
@@ -284,7 +288,8 @@ export default function Home() {
                                                 marginTop: "36px",
                                             }}
                                         >
-                                            Start now
+                                             <Link href = "/act" >
+                                            Start now</Link>
                                         </button>
                                     </div>
                                 </div>
