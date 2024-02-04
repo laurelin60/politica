@@ -72,6 +72,7 @@ model Legislator {
   pictureUrl String
   party      Party
   district   Int
+  summary    String?
   votes      Vote[]
   bills      Bill[]
 }

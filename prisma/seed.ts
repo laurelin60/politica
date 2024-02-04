@@ -221,14 +221,14 @@ async function seedVotes() {
 }
 
 async function seed() {
-    // console.log("Seeding Assembly...");
-    // await seedAssembly();
-    //
-    // console.log("Seeding Senators...");
-    // await seedSenators();
-    //
-    // console.log("Seeding Bills...");
-    // await seedBills();
+    console.log("Seeding Assembly...");
+    await seedAssembly();
+
+    console.log("Seeding Senators...");
+    await seedSenators();
+
+    console.log("Seeding Bills...");
+    await seedBills();
 
     // console.log("Seeding Votes...");
     // await seedVotes();
