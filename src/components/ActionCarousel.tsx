@@ -8,7 +8,11 @@ import { Heart } from "lucide-react";
 
 import { Button } from "./ui/button";
 
-const ActionCarousel = () => {
+const ActionCarousel = (props: { handleRepMode: (state: boolean) => void }) => {
+    const handleClick = () => {
+        props.handleRepMode(true);
+    };
+
     return (
         <div className="flex min-h-full space-x-4 overflow-y-scroll">
             {[...Array(3).keys()].map((index) => (
@@ -35,7 +39,10 @@ const ActionCarousel = () => {
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button className="w-full rounded-xl bg-jas-purple hover:bg-jas-purple/80">
+                        <Button
+                            className="w-full rounded-xl bg-jas-purple hover:bg-jas-purple/80"
+                            onClick={handleClick}
+                        >
                             Join Now
                         </Button>
                     </CardFooter>
