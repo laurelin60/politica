@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dot, Lightbulb, Zap } from "lucide-react";
+import { Dot, Lightbulb, Zap, ArrowUpRightFromCircle } from "lucide-react";
 
 import ActionCarousel from "./ActionCarousel";
 import { DataResponse } from "./Chat";
@@ -93,6 +93,7 @@ const Actions = ({
                                href={"https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=" + bill.id}>
                                 {bill.measure}
                             </a>
+                            <ArrowUpRightFromCircle/>
                         </div>
                     </div>
 
