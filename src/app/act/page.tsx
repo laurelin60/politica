@@ -97,7 +97,7 @@ const Page = () => {
                     <div className="fixed inset-0 flex items-center justify-center">
                         <div className="bg-white w-[500px] h-fit rounded-4xl flex items-center p-8 flex-col space-y-8 relative">
                             {stage === 0 ? (
-                                <div className="pb-12">
+                                <div className="pb-12 space-y-8">
                                     <img
                                         src="./onboard_1.png"
                                         className="h-fit"
