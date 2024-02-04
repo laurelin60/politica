@@ -64,8 +64,8 @@ The user's prompt is: ${opts.input.prompt}
                         tags: true,
                     }
                 });
-                res.sort((a, b) => {
-                    return b.tags.length - a.tags.length;
+                res.sort((a: any, b: any) => {
+                    return b.tags.filter((tag: any) => Object.values(tagTable).includes(tag)).length - a.tags.filter((tag: any) => Object.values(tagTable).includes(tag)).length;
                 });
                 return res;
             } catch (e) {
