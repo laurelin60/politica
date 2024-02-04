@@ -4,6 +4,8 @@ import {
     HarmCategory,
 } from "@google/generative-ai";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,11 +39,4 @@ export default async function callGemini(prompt) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     return response.text();
-}
-
-const res = await callGemini("tell me about gays");
-
-for (const section of res) {
-    console.log(section);
-    console.log("-".repeat(20));
 }
