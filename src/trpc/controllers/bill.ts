@@ -50,7 +50,7 @@ The user's prompt is: ${opts.input.prompt}
 
                 console.log(realTags);
 
-                let res: any = await db.bill.findMany({
+                const res = await db.bill.findMany({
                     where: {
                         tags: {
                             hasSome: realTags
