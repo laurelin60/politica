@@ -12,6 +12,13 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
 
+const generationConfig = {
+    temperature: 0.5,
+    topK: 1,
+    topP: 1,
+    maxOutputTokens: 2048,
+  };
+
 const safetySettings = [
     {
         category: HarmCategory.HARM_CATEGORY_HARASSMENT,
@@ -33,10 +40,18 @@ const safetySettings = [
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
 
-const model = genAI.getGenerativeModel({ model: "gemini-pro", safetySettings });
+const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-export default async function callGemini(prompt) {
-    const result = await model.generateContent(prompt);
+export async function callGemini(prompt) {
+    const result = await model.generateContent(prompt, generationConfig, safetySettings);
+    const response = await result.response;
+    return response.text();
+}
+
+export async function callGeminiWithKey(prompt, key) {
+    const genAI = new GoogleGenerativeAI(key);
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const result = await model.generateContent(prompt, generationConfig, safetySettings);
     const response = await result.response;
     return response.text();
 }
