@@ -51,6 +51,7 @@ const config = {
                 jas: {
                     light: "#F7F6F9",
                     purple: "#7B5AFF",
+                    purple_light: "#E5DFFA",
                     pink: "#CA5AFF",
                     dark: "#817D88",
                 },
