@@ -198,6 +198,57 @@ async function seedVotes() {
     }
 }
 
+type Summary = {
+    billId: string,
+    summary: string
+    tags: string[]
+}
+
+const tagTable = {
+    "lgbtq": "LGBTQ",
+    "judicial": "Judicial",
+    "children": "Children",
+    "civil rights": "CivilRights",
+    "sustainability": "Sustainability",
+    "gender equality": "GenderEquality",
+    "racial justice": "RacialJustice",
+    "refugee rights": "RefugeeRights",
+    "disability rights": "DisabilityRights",
+    "budget": "Budget",
+    "education": "Education",
+    "health": "Health",
+    "transportation": "Transportation",
+    "housing": "Housing",
+    "public safety": "PublicSafety",
+    "labor": "Labor",
+    "energy": "Energy",
+    "agriculture": "Agriculture",
+    "technology": "Technology"
+};
+
+async function seedBillSummaries() {
+    const summaries = JSON.parse(fs.readFileSync("./data/summaries.json", "utf-8"))["summaries"] as Summary[];
+
+    for (const summary of summaries) {
+
+        const firstSentence = summary.summary.match(/[^.!?]+[.!?]/);
+        const formattedSummary = firstSentence ? firstSentence[0] : summary.summary;
+
+
+        await db.bill.update({
+            where: {
+                id: summary.billId
+            },
+            data: {
+                summary: formattedSummary,
+                tags: {
+                    // @ts-ignore
+                    set: summary.tags.map(tag => tagTable[tag]) as $Enums.Tag[]
+                }
+            }
+        });
+    }
+}
 
 async function seed() {
     // console.log("Seeding Assembly...");
@@ -208,9 +259,12 @@ async function seed() {
     //
     // console.log("Seeding Bills...");
     // await seedBills();
+    //
+    // console.log("Seeding Votes...");
+    // await seedVotes();
 
-    console.log("Seeding Votes...");
-    await seedVotes();
+    console.log("Seeding Summaries...");
+    await seedBillSummaries();
 }
 
 seed();

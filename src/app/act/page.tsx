@@ -29,8 +29,6 @@ const Page = () => {
     const handleMouseMove = (e: MouseEvent) => {
         setYPosition(e.clientY);
         setBottom(1728 - yPosition - 922);
-
-        console.log(bottom);
     };
 
     return (
