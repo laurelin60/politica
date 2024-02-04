@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useChat } from "ai/react";
-import { Loader2, Mic, Send } from "lucide-react";
+import { Loader2 /*Mic,*/, Send } from "lucide-react";
 
 import AssistantMessage from "./AssistantMessage";
 
@@ -137,19 +137,19 @@ const Chat = ({ onSelect }: { onSelect: (billTitle: string) => void }) => {
                         value={input}
                         placeholder="enter a bill that..."
                         onChange={handleInputChange}
-                        className="input-form w-[calc(100%-160px)] bg-[#ECECEC] py-6 text-xl text-opacity-70 text-black h-full rounded-3xl border-2 active:ring-black active:ring-opacity-60"
+                        className="input-form w-[calc(100%-80px)] bg-[#ECECEC] py-6 text-xl text-opacity-70 text-black h-full rounded-2xl border-2 active:ring-black active:ring-opacity-60"
                     />
 
-                    <Button
+                    {/* <Button
                         type="submit"
                         className="h-20 w-20 rounded-3xl bg-[#D5D5D5] text-[#6C6C6C] hover:bg-[#D5D5D5]/80"
                     >
                         <Mic className="size-9" />
-                    </Button>
+                    </Button> */}
 
                     <Button
                         type="submit"
-                        className="h-20 aspect-square rounded-3xl bg-jas-purple hover:bg-jas-purple/80"
+                        className="h-20 aspect-square rounded-2xl bg-jas-purple hover:bg-jas-purple/80"
                     >
                         <Send className="size-9" />
                     </Button>

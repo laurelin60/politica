@@ -39,3 +39,6 @@ scrapers/bills.json
 data/assembly.json
 data/bills.json
 data/senators.json
+prisma/summaries.json
+
+.idea
