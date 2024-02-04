@@ -50,7 +50,7 @@ The user's prompt is: ${opts.input.prompt}
 
                 console.log(realTags);
 
-                return db.bill.findMany({
+                let res: any = await db.bill.findMany({
                     where: {
                         tags: {
                             hasSome: realTags
@@ -62,9 +62,12 @@ The user's prompt is: ${opts.input.prompt}
                         status: true,
                         summary: true,
                         tags: true,
-                    },
-                    take: 3
-                })
+                    }
+                });
+                res.sort((a, b) => {
+                    return b.tags.length - a.tags.length;
+                });
+                return res;
             } catch (e) {
                 console.error(e);
                 if (attempts == 3) break;
