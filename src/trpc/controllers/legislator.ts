@@ -5,7 +5,7 @@ import { callGemini } from "@/app/api/gemini/gemini.mjs";
 import { $Enums } from "@prisma/client";
 import { getLegislatorBills } from "@/trpc/controllers/bill";
 
-export const getLegislatorSummary = publicProcedure
+export const writeEmailToLegislator = publicProcedure
     .input(z.object({ legislatorName: z.string(), billId: z.string() }))
     .query(async (opts) => {
         let bill = await db.bill.findFirst({
@@ -43,7 +43,7 @@ Bill summary: ${bill.summary}
         return { error: "Something had a stroke and died" }; 
     });
 
-export const writeEmailToLegislator = publicProcedure
+export const getLegislatorSummary = publicProcedure
     .input(z.object({ legislatorName: z.string(), billId: z.string() }))
     .query(async (opts) => {
         return { "message": "hi im writing about a bill and im cool and like cookies :)" };
