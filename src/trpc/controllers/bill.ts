@@ -1,22 +1,36 @@
 import { db } from "@/db";
 import { publicProcedure } from "@/trpc/trpc";
 import { z } from "zod";
+import callGemini from "@/app/api/gemini/gemini.mjs";
+
+
+export const getBillByPrompt = publicProcedure
+    .input(z.object({ prompt: z.string() }))
+    .query(async (opts) => {
+        for (let i = 0; i < 3; i++) {
+            const response = await callGemini(
+                `### Your job is to classify a user's prompt into a specific category that matches best. 
+                The user's prompt is: ${opts.input.prompt}`
+            );
+        }
+        return db.bill.findMany({});
+    });
 
 export const getBillById = publicProcedure
     .input(z.object({ billId: z.string() }))
     .query(async (opts) => {
         return db.bill.findFirst({
             where: {
-                billId: opts.input.billId,
-            },
+                id: opts.input.billId
+            }
         });
     });
 
 export const getLegislatorBills = publicProcedure
     .input(
         z.object({
-            authorNameContains: z.string(), // Add this line to accept author name as a parameter
-        }),
+            authorNameContains: z.string() // Add this line to accept author name as a parameter
+        })
     )
     .query(async (opts) => {
         return db.bill.findMany({
@@ -24,12 +38,12 @@ export const getLegislatorBills = publicProcedure
                 author: {
                     // Perform a join with the Legislator table and filter by author's name
                     name: {
-                        contains: opts.input.authorNameContains, // Use the contains filter
-                    },
-                },
+                        contains: opts.input.authorNameContains // Use the contains filter
+                    }
+                }
             },
             select: {
-                billId: true,
+                id: true,
                 measure: true,
                 subject: true,
                 status: true,
@@ -39,10 +53,10 @@ export const getLegislatorBills = publicProcedure
                     select: {
                         name: true,
                         party: true,
-                        district: true,
-                    },
+                        district: true
+                    }
                 },
-                votes: true,
-            },
+                votes: true
+            }
         });
     });

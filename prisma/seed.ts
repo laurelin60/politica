@@ -30,12 +30,13 @@ type Bill = {
     status: string,
     billText: string,
     voteInfo: VoteInfo[],
+    publishDate: string
 }
 
 async function findBill(billId: string) {
     return db.bill.findFirst({
         where: {
-            billId: billId
+            id: billId
         }
     });
 }
@@ -96,7 +97,10 @@ async function seedSenators() {
 async function seedBills() {
     const bills = JSON.parse(fs.readFileSync("./data/bills.json", "utf-8")) as Bill[];
 
+
     for (const bill of bills) {
+        const date = bill.publishDate ? new Date(bill.publishDate) : bill.voteInfo.length > 0 ? new Date(bill.voteInfo[0].Date) : new Date("01/01/1970");
+
         const author = await db.legislator.findFirst({
             where: {
                 name: {
@@ -109,24 +113,24 @@ async function seedBills() {
             console.log(`Author ${bill.author} not found for bill: ${bill.billName}`);
             await db.bill.create({
                 data: {
-                    billId: bill.billId,
+                    id: bill.billId,
                     measure: bill.measure,
                     subject: bill.billName,
                     status: bill.status,
                     fullText: bill.billText,
-                    date: "",
+                    date: date,
                     author: {}
                 }
             });
         } else {
             await db.bill.create({
                 data: {
-                    billId: bill.billId,
+                    id: bill.billId,
                     measure: bill.measure,
                     subject: bill.billName,
                     status: bill.status,
                     fullText: bill.billText,
-                    date: "",
+                    date: date,
                     author: {
                         connect: {
                             name: author.name
@@ -148,28 +152,19 @@ async function seedVotes() {
             continue;
         }
 
+        const voteData = [];
         for (const vote of bill.voteInfo) {
-            console.log(vote);
             for (const ayeVoter of vote.Ayes) {
                 const legislator = await findLegislator(ayeVoter);
                 if (!legislator) {
                     console.log(`Legislator ${ayeVoter} not found`);
                     continue;
                 }
-                await db.vote.create({
-                    data: {
-                        bill: {
-                            connect: {
-                                billId: bill.billId
-                            }
-                        },
-                        legislator: {
-                            connect: {
-                                name: legislator.name
-                            }
-                        },
-                        vote: "Aye" as $Enums.VoteType
-                    }
+
+                voteData.push({
+                    billId: bill.billId,
+                    legislatorId: legislator.id,
+                    vote: "Aye" as $Enums.VoteType
                 });
             }
             for (const nayVoter of vote.Noes) {
@@ -178,20 +173,10 @@ async function seedVotes() {
                     console.log(`Legislator ${nayVoter} not found`);
                     continue;
                 }
-                await db.vote.create({
-                    data: {
-                        bill: {
-                            connect: {
-                                billId: bill.billId
-                            }
-                        },
-                        legislator: {
-                            connect: {
-                                name: legislator.name
-                            }
-                        },
-                        vote: "Nay" as $Enums.VoteType
-                    }
+                voteData.push({
+                    billId: bill.billId,
+                    legislatorId: legislator.id,
+                    vote: "Nay" as $Enums.VoteType
                 });
             }
             for (const nvrVoter of vote.NVR) {
@@ -200,38 +185,32 @@ async function seedVotes() {
                     console.log(`Legislator ${nvrVoter} not found`);
                     continue;
                 }
-                await db.vote.create({
-                    data: {
-                        bill: {
-                            connect: {
-                                billId: bill.billId
-                            }
-                        },
-                        legislator: {
-                            connect: {
-                                name: legislator.name
-                            }
-                        },
-                        vote: "Nvr" as $Enums.VoteType
-                    }
+                voteData.push({
+                    billId: bill.billId,
+                    legislatorId: legislator.id,
+                    vote: "Nvr" as $Enums.VoteType
                 });
             }
         }
+        // Create votes in bulk
+        // @ts-ignore
+        await db.vote.createMany({ data: voteData, skipDuplicates: true });
     }
 }
 
+
 async function seed() {
-    console.log("Seeding Assembly...");
-    await seedAssembly();
+    // console.log("Seeding Assembly...");
+    // await seedAssembly();
+    //
+    // console.log("Seeding Senators...");
+    // await seedSenators();
+    //
+    // console.log("Seeding Bills...");
+    // await seedBills();
 
-    console.log("Seeding Senators...");
-    await seedSenators();
-
-    console.log("Seeding Bills...");
-    await seedBills();
-
-    // console.log("Seeding Votes...");
-    // await seedVotes();
+    console.log("Seeding Votes...");
+    await seedVotes();
 }
 
 seed();

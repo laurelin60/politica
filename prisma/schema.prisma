@@ -60,7 +60,7 @@ model Vote {
   legislator   Legislator @relation(fields: [legislatorId], references: [id])
   legislatorId String     @db.ObjectId
   bill         Bill       @relation(fields: [billId], references: [id])
-  billId       String     @db.ObjectId
+  billId       String
 
   @@unique([legislatorId, billId])
 }
@@ -78,8 +78,7 @@ model Legislator {
 }
 
 model Bill {
-  id       String      @id @default(auto()) @map("_id") @db.ObjectId
-  billId   String      @unique
+  id       String      @id @map("_id")
   date     DateTime
   measure  String
   subject  String
