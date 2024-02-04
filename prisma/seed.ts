@@ -106,10 +106,17 @@ async function seedSenators() {
 async function seedVotes() {}
 
 async function seed() {
-    await seedAssembly();
-    await seedSenators();
+    // console.log("Seeding Assembly...");
+    // await seedAssembly();
+    //
+    // console.log("Seeding Senators...");
+    // await seedSenators();
+    //
+    // console.log("Seeding Bills...");
     // await seedBills();
-    // await seedVotes();
+
+    console.log("Seeding Votes...");
+    await seedVotes();
 }
 
 seed();
