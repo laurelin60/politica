@@ -1,25 +1,44 @@
 import { db } from "@/db";
 import { publicProcedure } from "@/trpc/trpc";
 import { z } from "zod";
-import callGemini from "@/app/api/gemini/gemini.mjs";
+import { callGemini } from "@/app/api/gemini/gemini.mjs";
 
+let validTags = ['lgbtq', 'judicial', 'children', 'civil rights', 'sustainability', 'gender equality', 'racial justice', 'refugee rights', 'disability rights', 'budget', 'education', 'health', 'transportation', 'housing', 'public safety', 'labor', 'energy', 'agriculture', 'technology'];
 
 export const getBillByPrompt = publicProcedure
     .input(z.object({ prompt: z.string() }))
     .query(async (opts) => {
-        for (let i = 0; i < 3; i++) {
-            const response = await callGemini(
-                `### Your job is to classify a user's prompt into a specific category that matches best. 
-                The user's prompt is: ${opts.input.prompt}`
-            );
-        }
-        return db.bill.findMany({
-            where: {
-                tags: {
-                    has: "LGBTQ"
-                }
+        let attempts = 0;
+        while (attempts++ < 3) {
+            try {
+                const response = await callGemini(`### SYSTEM INSTRUCTIONS
+Your job is to return matching tags based on the user's prompt. You may only pick tags from the list provided. If there are no tags, just put [].
+
+Available tags: ['lgbtq', 'judicial', 'children', 'civil rights', 'sustainability', 'gender equality', 'racial justice', 'refugee rights', 'disability rights', 'budget', 'education', 'health', 'transportation', 'housing', 'public safety', 'labor', 'energy', 'agriculture', 'technology']
+
+The user's prompt is: ${opts.input.prompt}
+
+### RESPONSE (TAG LIST ENCLOSED IN BRACKETS REQUIRED!)
+`);
+                let filteredTags = response.split('[')[1].split(']')[0].split(',').map(tag => tag.trim().toLowerCase()).filter(tag => validTags.includes(tag));
+                return db.bill.findMany({
+                    where: {
+                        tags: {
+                            hasSome: {
+                                name: {
+                                    in: filteredTags
+                                }
+                            }
+                        }
+                    }
+                });
             }
-        });
+            catch (e) {
+                console.error(e);
+                if (attempts == 3) break;
+            }
+        }
+        return { error: "Something had a stroke and died" };
     });
 
 export const getBillById = publicProcedure
