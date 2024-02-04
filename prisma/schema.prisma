@@ -27,6 +27,24 @@ enum VoteType {
   Nvr
 }
 
+enum BillTags {
+  Budget
+  Education
+  Health
+  Environment
+  Transportation
+  Housing
+  PublicSafety
+  CivilRights
+  Labor
+  Business
+  Agriculture
+  Energy
+  Technology
+  Government
+  LGBTQIA
+}
+
 model User {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   email String @unique
@@ -55,6 +73,7 @@ model Legislator {
 model Bill {
   id       String      @id @default(auto()) @map("_id") @db.ObjectId
   billId   String      @unique
+  date     DateTime
   measure  String
   subject  String
   status   String

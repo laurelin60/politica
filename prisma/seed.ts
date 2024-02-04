@@ -114,6 +114,7 @@ async function seedBills() {
                     subject: bill.billName,
                     status: bill.status,
                     fullText: bill.billText,
+                    date: "",
                     author: {}
                 }
             });
@@ -125,6 +126,7 @@ async function seedBills() {
                     subject: bill.billName,
                     status: bill.status,
                     fullText: bill.billText,
+                    data: "",
                     author: {
                         connect: {
                             name: author.name
@@ -139,9 +141,6 @@ async function seedBills() {
 async function seedVotes() {
     const bills = JSON.parse(fs.readFileSync("./data/bills.json", "utf-8")) as Bill[];
     for (const bill of bills) {
-        console.log(`Seeding votes for bill: ${bill.billName}`);
-        console.log(bill.voteInfo)
-
         const billRecord = await findBill(bill.billId);
 
         if (!billRecord) {
