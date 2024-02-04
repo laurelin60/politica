@@ -4,11 +4,7 @@ import {
     CardFooter,
     CardHeader,
 } from "@/components/ui/card";
-<<<<<<< Updated upstream
-import { Heart, MapPin } from "lucide-react";
-=======
 import { MapPin } from "lucide-react";
->>>>>>> Stashed changes
 
 import { Button } from "./ui/button";
 
