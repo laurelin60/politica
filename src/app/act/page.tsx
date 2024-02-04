@@ -32,10 +32,7 @@ const Page = () => {
     };
 
     return (
-        <div
-            onMouseMove={handleMouseMove}
-            className="overflow-hidden max-h-[100vh]"
-        >
+        <div onMouseMove={handleMouseMove} className="max-h-[100vh]">
             <div className={cn("relative")}>
                 <div className="w-full h-[100vh] flex wrapper bg-jas-light py-8 space-x-8">
                     <div className="w-[55%] px-8 bg-white rounded-4xl">

@@ -22,11 +22,11 @@ const Actions = ({ bill }: { bill: string | undefined }) => {
     return (
         <>
             {repMode ? (
-                <div className="flex-grow flex h-full">
+                <div className="flex-grow flex h-full w-full">
                     <Representative handleRepMode={handleRepMode} />
                 </div>
             ) : (
-                <div className="space-y-5 h-full flex flex-col">
+                <div className="space-y-5 h-full flex flex-col w-full">
                     <div className="flex items-center space-x-4">
                         <div className="flex items-center space-x-2 text-jas-pink bg-jas-pink bg-opacity-25 px-4 py-2 rounded-2xl">
                             <Zap className="size-6 popover" />
