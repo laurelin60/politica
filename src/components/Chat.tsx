@@ -11,6 +11,7 @@ import { Loader2 /*Mic,*/, Send } from "lucide-react";
 import AssistantMessage from "./AssistantMessage";
 
 export type DataResponse = {
+    id: string;
     measure: string;
     subject: string;
     status: string;
