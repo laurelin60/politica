@@ -2,8 +2,31 @@ import { db } from "@/db";
 import { publicProcedure } from "@/trpc/trpc";
 import { z } from "zod";
 import { callGemini } from "@/app/api/gemini/gemini.mjs";
+import { $Enums } from "@prisma/client";
 
-let validTags = ['lgbtq', 'judicial', 'children', 'civil rights', 'sustainability', 'gender equality', 'racial justice', 'refugee rights', 'disability rights', 'budget', 'education', 'health', 'transportation', 'housing', 'public safety', 'labor', 'energy', 'agriculture', 'technology'];
+const validTags = ["lgbtq", "judicial", "children", "civil rights", "sustainability", "gender equality", "racial justice", "refugee rights", "disability rights", "budget", "education", "health", "transportation", "housing", "public safety", "labor", "energy", "agriculture", "technology"];
+
+const tagTable: { [key: string]: string; } = {
+    "lgbtq": "LGBTQ",
+    "judicial": "Judicial",
+    "children": "Children",
+    "civil rights": "CivilRights",
+    "sustainability": "Sustainability",
+    "gender equality": "GenderEquality",
+    "racial justice": "RacialJustice",
+    "refugee rights": "RefugeeRights",
+    "disability rights": "DisabilityRights",
+    "budget": "Budget",
+    "education": "Education",
+    "health": "Health",
+    "transportation": "Transportation",
+    "housing": "Housing",
+    "public safety": "PublicSafety",
+    "labor": "Labor",
+    "energy": "Energy",
+    "agriculture": "Agriculture",
+    "technology": "Technology"
+};
 
 export const getBillByPrompt = publicProcedure
     .input(z.object({ prompt: z.string() }))
@@ -18,22 +41,31 @@ Available tags: ['lgbtq', 'judicial', 'children', 'civil rights', 'sustainabilit
 
 The user's prompt is: ${opts.input.prompt}
 
-### RESPONSE (TAG LIST ENCLOSED IN BRACKETS REQUIRED!)
+### RESPONSE (TAG LIST ENCLOSED IN BRACKETS WITH SINGLE QUOTES REQUIRED!)
 `);
-                let filteredTags = response.split('[')[1].split(']')[0].split(',').map(tag => tag.trim().toLowerCase()).filter(tag => validTags.includes(tag));
+                console.log(response);
+                const filteredTags = response.replaceAll("'", "").replaceAll('"', '').split("[")[1].split("]")[0].split(",").map(tag => tag.trim().toLowerCase()).filter(tag => validTags.includes(tag));
+                console.log(filteredTags);
+                const realTags = filteredTags.map(tag => tagTable[tag]) as $Enums.Tag[];
+
+                console.log(realTags);
+
                 return db.bill.findMany({
                     where: {
                         tags: {
-                            hasSome: {
-                                name: {
-                                    in: filteredTags
-                                }
-                            }
+                            hasSome: realTags
                         }
-                    }
-                });
-            }
-            catch (e) {
+                    },
+                    select: {
+                        measure: true,
+                        subject: true,
+                        status: true,
+                        summary: true,
+                        tags: true,
+                    },
+                    take: 3
+                })
+            } catch (e) {
                 console.error(e);
                 if (attempts == 3) break;
             }

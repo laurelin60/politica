@@ -216,7 +216,7 @@ type Summary = {
     tags: string[]
 }
 
-const tagTable = {
+const tagTable: { [key: string]: string; } = {
     "lgbtq": "LGBTQ",
     "judicial": "Judicial",
     "children": "Children",
@@ -254,7 +254,6 @@ async function seedBillSummaries() {
             data: {
                 summary: formattedSummary,
                 tags: {
-                    // @ts-ignore
                     set: summary.tags.map(tag => tagTable[tag]) as $Enums.Tag[]
                 }
             }
