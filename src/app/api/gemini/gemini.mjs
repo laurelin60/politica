@@ -1,7 +1,12 @@
 import dotenv from "dotenv";
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
 
 const safetySettings = [{
     category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE
@@ -21,11 +26,4 @@ export default async function callGemini(prompt) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     return response.text();
-}
-
-const res = await callGemini("tell me about gays");
-
-for (const section of res) {
-    console.log(section);
-    console.log("-".repeat(20));
 }
