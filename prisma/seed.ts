@@ -126,7 +126,7 @@ async function seedBills() {
                     subject: bill.billName,
                     status: bill.status,
                     fullText: bill.billText,
-                    data: "",
+                    date: "",
                     author: {
                         connect: {
                             name: author.name
@@ -218,6 +218,39 @@ async function seedVotes() {
             }
         }
     }
+}
+
+async function buildLegislatorTags() {
+    const legislators = await db.legislator.findMany();
+    for (const legislator of legislators) {
+        for (const tag of Object.values($Enums.Tag)) {
+            const tagVotes = await db.vote.aggregate({
+                where: {
+                    legislator: {
+                        name: legislator.name
+                    },
+                    bill: {
+                        tags: {
+                            has: tag
+                        }
+                    }
+                },
+                _count: true
+            });
+
+            await db.legislator.update({
+                where: {
+                    name: legislator.name
+                },
+                data: {
+                    tags: {
+
+                    }
+                }
+            });
+        }
+    }
+
 }
 
 async function seed() {

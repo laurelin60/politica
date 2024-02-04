@@ -27,7 +27,7 @@ enum VoteType {
   Nvr
 }
 
-enum BillTags {
+enum Tag {
   Budget
   Education
   Health
@@ -41,8 +41,17 @@ enum BillTags {
   Agriculture
   Energy
   Technology
-  Government
   LGBTQIA
+}
+
+model WeightedTag {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  tag          Tag
+  weight       Int
+  Legislator   Legislator @relation(fields: [legislatorId], references: [id])
+  legislatorId String     @db.ObjectId
+
+  @@unique([legislatorId, tag])
 }
 
 model User {
@@ -57,6 +66,8 @@ model Vote {
   legislatorId String     @db.ObjectId
   bill         Bill       @relation(fields: [billId], references: [id])
   billId       String     @db.ObjectId
+
+  @@unique([legislatorId, billId])
 }
 
 model Legislator {
@@ -68,6 +79,7 @@ model Legislator {
   district   Int
   votes      Vote[]
   bills      Bill[]
+  tags       WeightedTag[]
 }
 
 model Bill {
@@ -79,6 +91,7 @@ model Bill {
   status   String
   fullText String
   summary  String?
+  tags     Tag[]       @default([])
   author   Legislator? @relation(fields: [authorId], references: [id])
   authorId String?     @db.ObjectId
   votes    Vote[]
