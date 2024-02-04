@@ -50,7 +50,7 @@ async function processBill(bill, billTextBaseUrl, billVotesBaseUrl) {
             const billTextResponse = await axios.get(`${billTextBaseUrl}${bill.billId}`);
             const billText$ = cheerio.load(billTextResponse.data);
             bill.billText = billText$('#bill_all').text().replaceAll('  ', '');
-            bill.date = billText$('#bill_intro_date').text().trim();
+            bill.publishDate = billText$('.tab_content').eq(0).children().eq(0).children().eq(2).text().trim().split(': ')[1].split(' ')[0];
 
             const billVotesResponse = await axios.get(`${billVotesBaseUrl}${bill.billId}`);
             const billVotes$ = cheerio.load(billVotesResponse.data);
