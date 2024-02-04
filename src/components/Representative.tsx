@@ -124,7 +124,7 @@ const Representative = (props: {
                     </h3>
                     <div className="flex items-center space-x-2 bg-[#ECECEC] text-[#6C6C6C] px-4 p-2 rounded-xl w-fit">
                         <Mail className="size-4" />
-                        <p className="font-regular text-base">lily@gmail.com</p>
+                        <p className="font-regular text-base">bzalle@ca.gov</p>
                     </div>
 
                     <Tinymce
