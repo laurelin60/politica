@@ -46,7 +46,10 @@ const Actions = ({ bill }: { bill: string | undefined }) => {
 
                     <div className="flex space-x-4 bg-white p-6 rounded-3xl">
                         <div className="bg-jas-purple bg-opacity-10 w-fit h-fit p-4 rounded-2xl">
-                            <Lightbulb className="text-jas-purple" />
+                            <Lightbulb
+                                className="text-jas-purple"
+                                fill="#7B5AFF"
+                            />
                         </div>
                         <div className="space-y-2 w-[90%]">
                             <h1 className="font-bold text-3xl">
@@ -63,7 +66,7 @@ const Actions = ({ bill }: { bill: string | undefined }) => {
 
                     <div className="flex items-center space-x-4">
                         <div className="bg-jas-purple bg-opacity-10 w-fit h-fit p-4 rounded-2xl">
-                            <Zap className="text-jas-purple" />
+                            <Zap className="text-jas-purple" fill="#7B5AFF" />
                         </div>
                         <h2 className="font-bold text-3xl">Take Action</h2>
                     </div>
