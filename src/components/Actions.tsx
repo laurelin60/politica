@@ -23,7 +23,7 @@ const Actions = ({ bill }: { bill: string | undefined }) => {
         <>
             {repMode ? (
                 <div className="flex-grow flex h-full w-full">
-                    <Representative handleRepMode={handleRepMode} />
+                    <Representative handleRepMode={handleRepMode} bill={bill} />
                 </div>
             ) : (
                 <div className="space-y-5 h-full flex flex-col w-full">
