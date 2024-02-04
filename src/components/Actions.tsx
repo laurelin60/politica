@@ -34,12 +34,12 @@ const Actions = ({ bill }: { bill: string | undefined }) => {
                         </div>
                         <div className="flex items-center space-x-2 text-jas-dark">
                             <Dot className="size-8 -m-4" />
-                            <p className="font-semibold">{bill}</p>
+                            <p className="font-semibold text-xl">{bill}</p>
                         </div>
                     </div>
 
                     <div>
-                        <h1 className="font-bold text-4xl">
+                        <h1 className="font-bold text-4xl line-clamp-2">
                             A bill that increases access to Hormone Therapy
                         </h1>
                     </div>
