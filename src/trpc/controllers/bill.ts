@@ -75,7 +75,8 @@ The user's prompt is: ${opts.input.prompt}
                     return b.tags.filter((tag) => Object.values(tagTable).includes(tag)).length - a.tags.filter((tag) => Object.values(tagTable).includes(tag)).length;
                 });
                 return res;
-            } catch (e) {
+            }
+            catch (e) {
                 console.error(e);
                 if (attempts == 3) break;
             }

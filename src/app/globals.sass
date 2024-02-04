@@ -6,19 +6,20 @@ $text-color: #000
 $sec-text-color: rgba(0, 0, 0, .5) 
 $prim: #7B5AFF
 $hover-prim: #5B3CD5
+$prim-bg: #F2EFFF
 $pink: #CA5AFF
 $pink-bg: #FAEFFF
 $sec: #ECECEC 
 $hover-sec: #DBD8D8
 
-$link: grey
+$link: #817D88
 $linkHover: darkgrey
 $navBackground: rgba(255, 255, 255, .5)
 //! text
 $buttons: 22px
 $spanText: blue
 h1
-  font-size: 48px
+  font-size: 56px
   color: $text-color
   font-weight: 800
   text-align: center
@@ -52,33 +53,6 @@ body
     background-color: $light-bg
   @else  
     background-color: $dark-bg
-
- 
-
-//* nav
-nav  
-  width: 100% 
-  height: fit-content 
-  padding: 22px
-  position: fixed
-  top: 0
-  background-color: $navBackground
-  backdrop-filter: blur(10px)
-  ul  
-    margin: 0 
-    padding: 0 
-    list-style: none 
-    width: 100%
-  li  
-    display: inline-block 
-    width: 100%
-  a  
-    display: block 
-    padding: 6px 12px 
-    text-decoration: none 
-    color: $link
-    &:hover
-      color: $linkHover
 
  
 
@@ -148,7 +122,42 @@ nav
  
 
 
-
+//* nav
+nav  
+  width: 100% 
+  height: fit-content 
+  padding: 22px
+  position: fixed
+  top: 0
+  z-index: 5000
+  background-color: $navBackground
+  backdrop-filter: blur(10px)
+  ul  
+    margin: 0 
+    padding: 0 
+    list-style: none 
+    width: 100%
+  li  
+    display: inline-block 
+    width: fit-content
+    @include flex-row
+    @include flex
+    gap: 22px
+  a  
+    display: block 
+    padding: 6px 12px 
+    text-decoration: none 
+    color: $link
+    &:hover
+      color: $linkHover
+.navButton
+  padding: 12px 22px
+  border-radius: 12px
+  color: $link
+  font-weight: 600
+  &.active
+    color: $prim
+    background-color: $prim-bg
 //* reusable components
 //* regular button
 button  
@@ -163,12 +172,14 @@ button
   color: #fff
   border-radius: 22px
   transition: $hoverAnimate
+  min-width: 120px
   &.primary  
     background-color: $prim 
     &:hover  
       background-color: $hover-prim 
   &.secondary  
     background-color: $sec 
+    color: $link
     &:hover  
       background-color: $hover-sec 
      
@@ -189,6 +200,7 @@ button
   font-weight: 600
   width: fit-content
   @include red
+  z-index: 3000
 
 
 //* landing page
@@ -201,4 +213,53 @@ button
         @include flex-row
         gap: 12px
         
-    
+.hero-image 
+  position: absolute
+  z-index: 2
+  margin-top: 20vh
+  left: 0
+  top: 0
+  & img
+    width: 100vw
+.hero-text-contain
+  z-index: 1000
+  @include flex
+  @include flex-column
+.subheading-header-contain 
+  z-index: 2000
+  & a 
+    display: flex 
+    flex-direction: row 
+    align-items: center 
+    justify-content: center 
+    gap: 4px 18px 
+    padding: 8px 
+    background-color: #fff
+    border-radius: 100px 
+    border: 4px solid rgba(0,0,0, .1)
+    width: fit-content 
+    margin-bottom: 4vh
+    transition: background-color 200ms ease 
+    &:hover  
+      cursor: pointer 
+      
+      & img  
+        transform: translateX(4px) 
+  & img  
+    width: 20px 
+    height: 20px 
+    transition: transform 200ms ease-in-out 
+    margin-top: 0 
+    opacity: 0.5 
+  & p  
+    margin: 0 
+    & span  
+      background-color: #70738f 
+      border-radius: 100px 
+      height: 100% 
+      width: fit-content 
+      padding: 5px 12px 
+      color: #fff 
+      font-weight: 600 
+  
+ 
