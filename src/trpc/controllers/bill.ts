@@ -44,10 +44,9 @@ The user's prompt is: ${opts.input.prompt}
 ### RESPONSE (TAG LIST ENCLOSED IN BRACKETS WITH SINGLE QUOTES REQUIRED!)
 `);
                 console.log(response);
-                const filteredTags = response.replaceAll("'", "").replaceAll('"', '').split("[")[1].split("]")[0].split(",").map(tag => tag.trim().toLowerCase()).filter(tag => validTags.includes(tag));
+                const filteredTags = response.replaceAll("'", "").replaceAll("\"", "").split("[")[1].split("]")[0].split(",").map(tag => tag.trim().toLowerCase()).filter(tag => validTags.includes(tag));
                 console.log(filteredTags);
                 const realTags = filteredTags.map(tag => tagTable[tag]) as $Enums.Tag[];
-
                 console.log(realTags);
 
                 const res = await db.bill.findMany({
@@ -62,6 +61,14 @@ The user's prompt is: ${opts.input.prompt}
                         status: true,
                         summary: true,
                         tags: true,
+                        author: {
+                            select: {
+                                name: true,
+                                party: true,
+                                district: true,
+                                pictureUrl: true
+                            }
+                        }
                     }
                 });
                 res.sort((a, b) => {
