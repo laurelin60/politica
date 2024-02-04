@@ -18,7 +18,7 @@ const Representative = (props: { handleRepMode: (state: boolean) => void }) => {
             <div className="flex space-x-4">
                 <div
                     onClick={handleClick}
-                    className="flex items-center space-x-2 text-jas-dark h-fit bg-[#ECECEC] border-black border-2 border-opacity-10 bg-opacity-25 p-2 rounded-xl w-fit"
+                    className="flex items-center space-x-2 cursor-pointer text-jas-dark h-fit hover:bg-opacity-100 bg-[#ECECEC] border-black border-2 border-opacity-10 bg-opacity-25 p-2 rounded-xl w-fit"
                 >
                     <ArrowLeft className="size-6" />
                 </div>
@@ -83,7 +83,7 @@ const Representative = (props: { handleRepMode: (state: boolean) => void }) => {
                 </CardContent>
                 <CardFooter className="absolute bottom-4 w-full space-x-4">
                     <Button
-                        className="w-full rounded-xl py-6 text-[#6C6C6C] text-xl bg-[#ECECEC] hover:bg-jas-purple/80"
+                        className="w-full rounded-xl py-6 text-[#6C6C6C] text-xl bg-[#ECECEC] hover:bg-[#ECECEC]/80"
                         onClick={handleClick}
                     >
                         Revise Message
