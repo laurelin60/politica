@@ -16,9 +16,19 @@ import { Eye, FileText, Sparkles } from "lucide-react";
 
 const Page = () => {
     const [bill, setBill] = useState<string>();
+    const [visual, setVisual] = useState(false);
+    const [adhd, setAdhd] = useState(false);
 
     const handleSelect = (billTitle: string) => {
         setBill((prevBill) => (prevBill == billTitle ? undefined : billTitle));
+    };
+
+    const handleVisual = () => {
+        setVisual((prevVisual) => !prevVisual);
+    };
+
+    const handleAdhd = () => {
+        setAdhd((prevAdhd) => !prevAdhd);
     };
 
     return (
@@ -62,7 +72,11 @@ const Page = () => {
                                         </div>
                                     </div>
 
-                                    <AccessSwitch className="w-20 h-10" />
+                                    <AccessSwitch
+                                        checked={visual}
+                                        className="w-20 h-10"
+                                        onClick={handleVisual}
+                                    />
                                 </div>
                                 <div className="flex space-x-4 bg-white py-6 rounded-3xl flex-between">
                                     <div className="flex space-x-2">
@@ -79,7 +93,11 @@ const Page = () => {
                                         </div>
                                     </div>
 
-                                    <AccessSwitch className="w-20 h-10" />
+                                    <AccessSwitch
+                                        checked={adhd}
+                                        className="w-20 h-10"
+                                        onClick={handleAdhd}
+                                    />
                                 </div>
                             </div>
                         </DialogDescription>
