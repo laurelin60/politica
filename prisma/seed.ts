@@ -1,6 +1,8 @@
 import { db } from "@/db";
 import fs from "fs";
 import { $Enums } from ".prisma/client";
+import csv from "csv-parser";
+import { getBindingIdentifiers } from "@babel/types";
 
 type Legislator = {
     name: string,
@@ -192,16 +194,16 @@ async function seedVotes() {
                 });
             }
         }
-        let uniqueMap = {}
+        let uniqueMap = {};
         voteData.forEach(vote => {
-            const key = vote.legislatorId + '|' + vote.billId;
+            const key = vote.legislatorId + "|" + vote.billId;
             console.log(key);
             // @ts-ignore
             if (!uniqueMap[key]) {
                 // @ts-ignore
                 uniqueMap[key] = vote;
             }
-        })
+        });
 
         const data = Object.values(uniqueMap);
 
@@ -261,21 +263,101 @@ async function seedBillSummaries() {
     }
 }
 
-async function seed() {
-    // console.log("Seeding Assembly...");
-    // await seedAssembly();
-    //
-    // console.log("Seeding Senators...");
-    // await seedSenators();
-    //
-    // console.log("Seeding Bills...");
-    // await seedBills();
-    //
-    console.log("Seeding Votes...");
-    await seedVotes();
+async function seedAssemblyZips() {
+    let districtZips: { [key: number]: number[] } = {};
+    await new Promise<void>((resolve, reject) => {
+        fs.createReadStream("./data/assembly.csv")
+            .pipe(csv())
+            .on("data", async (data) => {
+                const zip = parseInt(data["Zip Code (ZCTA)"]);
+                const district = parseInt(data["2021 Assembly District"]);
 
-    // console.log("Seeding Summaries...");
-    // await seedBillSummaries();
+                if (!districtZips[district]) {
+                    districtZips[district] = [];
+                }
+
+                districtZips[district].push(zip);
+
+            }).on("end", () => {
+            console.log("Finished reading assembly zips");
+            resolve(); // Resolve the promise once the file is fully processed
+        })
+            .on("error", (error) => {
+                reject(error); // Reject the promise if there's an error
+            });
+    });
+
+    for (const district in districtZips) {
+        console.log(`Updating district ${district}`);
+        await db.legislator.updateMany({
+            where: {
+                district: parseInt(district),
+                type: "Assembly"
+            },
+            data: {
+                zipCodes: {
+                    set: districtZips[district]
+                }
+            }
+        });
+    }
+}
+
+async function seedSenateZips() {
+    let districtZips: { [key: number]: number[] } = {};
+    await new Promise<void>((resolve, reject) => {
+        fs.createReadStream("./data/senate.csv")
+            .pipe(csv())
+            .on("data", async (data) => {
+                const zip = parseInt(data["Zip Code (Zcta5)"]);
+                const district = parseInt(data["Senate Districts 2023-24 Session"]);
+
+                if (!districtZips[district]) {
+                    districtZips[district] = [];
+                }
+
+                districtZips[district].push(zip);
+
+            }).on("end", () => {
+            console.log("Finished reading assembly zips");
+            resolve(); // Resolve the promise once the file is fully processed
+        })
+            .on("error", (error) => {
+                reject(error); // Reject the promise if there's an error
+            });
+    });
+
+    for (const district in districtZips) {
+        console.log(`Updating district ${district}`);
+        await db.legislator.updateMany({
+            where: {
+                district: parseInt(district),
+                type: "Senate"
+            },
+            data: {
+                zipCodes: {
+                    set: districtZips[district]
+                }
+            }
+        });
+    }
+}
+
+async function clearZips() {
+    await db.legislator.updateMany({
+        data: {
+            zipCodes: {
+                set: []
+            }
+        }
+    });
+}
+
+async function seed() {
+    // await clearZips();
+    // console.log("Seeding Zips...");
+    // await seedAssemblyZips();
+    await seedSenateZips();
 }
 
 seed();

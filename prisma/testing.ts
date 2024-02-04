@@ -4,7 +4,7 @@ import { $Enums } from ".prisma/client";
 import chalk from "chalk";
 const { Semaphore } = require('await-semaphore');
 
-import { callGemini, callGeminiWithKey } from "../src/app/api/gemini/gemini.mjs"
+import { callGemini, callGeminiWithKey } from "@/app/api/gemini/gemini.mjs"
 
 let keyIndex = 0;
 
