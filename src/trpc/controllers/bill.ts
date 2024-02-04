@@ -56,6 +56,7 @@ The user's prompt is: ${opts.input.prompt}
                         }
                     },
                     select: {
+                        id: true,
                         measure: true,
                         subject: true,
                         status: true,
@@ -90,6 +91,9 @@ export const getBillById = publicProcedure
         return db.bill.findFirst({
             where: {
                 id: opts.input.billId
+            },
+            select: {
+                id: true,
             }
         });
     });
