@@ -12,17 +12,20 @@ import {
     Sparkles /*Vote*/,
 } from "lucide-react";
 
+import { RepresentativeType } from "./Actions";
 import Tinymce from "./tinymce";
 import { Button } from "./ui/button";
 
 const Representative = (props: {
-    handleRepMode: (state: boolean) => void;
+    handleRepMode: (index: number) => void;
     bill: string;
+    repIndex: number;
+    representative: RepresentativeType | undefined;
 }) => {
     const [value, setValue] = useState("");
 
     const handleClick = () => {
-        props.handleRepMode(false);
+        props.handleRepMode(-1);
 
         // setLoading(true);
         // setTimeout(() => {
@@ -48,7 +51,9 @@ const Representative = (props: {
                 </div>
 
                 <div className="flex flex-col space-y-4">
-                    <h1 className="text-5xl font-bold">John Williams</h1>
+                    <h1 className="text-5xl font-bold">
+                        {props.representative?.name ?? "John Williams"}
+                    </h1>
                     {/* <div className="flex space-x-2">
                         <div className="flex items-center space-x-2 text-jas-pink bg-jas-pink bg-opacity-25 px-4 py-3 w-fit rounded-2xl">
                             <Vote className="size-6 popover" />

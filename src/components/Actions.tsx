@@ -5,9 +5,17 @@ import ActionCarousel from "./ActionCarousel";
 import { DataResponse } from "./Chat";
 import Representative from "./Representative";
 
+export type RepresentativeType = {
+    name: string;
+    party: string;
+    pictureUrl: string;
+    type: string;
+    district: number;
+};
+
 const Actions = ({
     bill,
-    zipCode = 90095,
+    zipCode,
 }: {
     bill: DataResponse | undefined;
     zipCode: number;
@@ -19,6 +27,8 @@ const Actions = ({
             </div>
         );
     }
+    const [representatives, setRepresentatives] =
+        useState<RepresentativeType[]>();
 
     const handleZip = async () => {
         const response = await fetch(
@@ -31,6 +41,9 @@ const Actions = ({
         const newData = await response.json();
 
         console.log(newData);
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+        setRepresentatives(newData.result.data);
     };
 
     useEffect(() => {
@@ -42,9 +55,11 @@ const Actions = ({
     }, []);
 
     const [repMode, setRepMode] = useState(false);
+    const [repIndex, setRepIndex] = useState(0);
 
-    const handleRepMode = (state: boolean) => {
-        setRepMode(state);
+    const handleRepMode = (index?: number) => {
+        setRepMode(index == -1 ? false : true);
+        setRepIndex(index ?? 0);
     };
 
     return (
@@ -53,7 +68,13 @@ const Actions = ({
                 <div className="flex-grow flex h-full w-full">
                     <Representative
                         handleRepMode={handleRepMode}
+                        repIndex={repIndex}
                         bill={bill.measure}
+                        representative={
+                            representatives
+                                ? representatives[repIndex >= 0 ? repIndex : 0]
+                                : undefined
+                        }
                     />
                 </div>
             ) : (
@@ -102,7 +123,11 @@ const Actions = ({
                     </div>
 
                     <div className="flex-grow flex">
-                        <ActionCarousel handleRepMode={handleRepMode} />
+                        <ActionCarousel
+                            handleRepMode={handleRepMode}
+                            // zipCode={zipCode}
+                            representatives={representatives}
+                        />
                     </div>
                 </div>
             )}
