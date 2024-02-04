@@ -343,6 +343,25 @@ async function seedSenateZips() {
     }
 }
 
+async function pruneTags() {
+    const bills = await db.bill.findMany({});
+
+    for (const bill of bills) {
+        if (bill.tags.length > 3) {
+            await db.bill.update({
+                where: {
+                    id: bill.id
+                },
+                data: {
+                    tags: {
+                        set: []
+                    }
+                }
+            });
+        }
+    }
+}
+
 async function clearZips() {
     await db.legislator.updateMany({
         data: {
@@ -357,7 +376,8 @@ async function seed() {
     // await clearZips();
     // console.log("Seeding Zips...");
     // await seedAssemblyZips();
-    await seedSenateZips();
+    // await seedSenateZips();
+    pruneTags()
 }
 
 seed();

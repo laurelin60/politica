@@ -49,10 +49,10 @@ The user's prompt is: ${opts.input.prompt}
                 const realTags = filteredTags.map(tag => tagTable[tag]) as $Enums.Tag[];
                 console.log(realTags);
 
-                const res = await db.bill.findMany({
+                let res = await db.bill.findMany({
                     where: {
                         tags: {
-                            hasSome: realTags
+                            hasEvery: realTags
                         }
                     },
                     select: {
@@ -72,12 +72,18 @@ The user's prompt is: ${opts.input.prompt}
                         }
                     }
                 });
+
+                res = res.filter((bill) => !(bill.status.toLowerCase().includes("chapter") || bill.status.toLowerCase().includes("dead")));
+
                 res.sort((a, b) => {
-                    return b.tags.filter((tag) => Object.values(tagTable).includes(tag)).length - a.tags.filter((tag) => Object.values(tagTable).includes(tag)).length;
+                    // return b.tags.filter((tag) => Object.values(tagTable).includes(tag)).length - a.tags.filter((tag) => Object.values(tagTable).includes(tag)).length;
+                    return a.tags.length - b.tags.length;
                 });
+
+                console.log(res[0].status.toLowerCase().includes("chapter"));
+
                 return res.splice(0, 2);
-            }
-            catch (e) {
+            } catch (e) {
                 console.error(e);
                 if (attempts == 3) break;
             }
@@ -93,7 +99,7 @@ export const getBillById = publicProcedure
                 id: opts.input.billId
             },
             select: {
-                id: true,
+                id: true
             }
         });
     });
