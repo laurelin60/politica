@@ -45,12 +45,23 @@ async function fetchAndProcessBills() {
 
 async function processBill(bill, billTextBaseUrl, billVotesBaseUrl) {
     let attempts = 0;
-    while (attempts < 5) {
+    while (attempts < 10) {
         try {
             const billTextResponse = await axios.get(`${billTextBaseUrl}${bill.billId}`);
             const billText$ = cheerio.load(billTextResponse.data);
             bill.billText = billText$('#bill_all').text().replaceAll('  ', '');
-            bill.publishDate = billText$('.tab_content').eq(0).children().eq(0).children().eq(2).text().trim().split(': ')[1].split(' ')[0];
+            try {
+                bill.publishDate = billText$('.tab_content').eq(0).children().eq(0).children().eq(2).text().trim().split(': ')[1].split(' ')[0];
+            }
+            catch (e1) {
+                try {
+                    bill.publishDate = billText$('.tab_content').eq(0).children().eq(0).children().eq(2).text().trim().split(': ')[1].split(' ')[0];
+                }
+                catch (e2) {
+                    bill.publishDate = "";
+                    console.log(chalk.redBright(`Failed to get publish date for "${bill.billName}"`))
+                }
+            }
 
             const billVotesResponse = await axios.get(`${billVotesBaseUrl}${bill.billId}`);
             const billVotes$ = cheerio.load(billVotesResponse.data);
@@ -78,9 +89,10 @@ async function processBill(bill, billTextBaseUrl, billVotesBaseUrl) {
         }
         catch (error) {
             attempts++;
-            if (attempts <= 3) console.log(chalk.yellowBright(`Fetch had a stroke on "${bill.billName}" (${++attempts}/5)`));
-            else console.log(chalk.yellow(`Fetch had a stroke on "${bill.billName}" (${++attempts}/5)`));
-            if (attempts >= 5) throw error;
+            if (attempts <= 5) console.log(chalk.yellowBright(`Fetch had a stroke on "${bill.billName}" (${attempts}/10)`));
+            else console.log(chalk.yellow(`Fetch had a stroke on "${bill.billName}" (${attempts}/10)`));
+            if (attempts >= 10) throw error;
+            await new Promise(resolve => setTimeout(resolve, 3000));
         }
     }
 }
