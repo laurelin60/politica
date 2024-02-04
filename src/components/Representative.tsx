@@ -15,12 +15,20 @@ import {
 import Tinymce from "./tinymce";
 import { Button } from "./ui/button";
 
-const Representative = (props: { handleRepMode: (state: boolean) => void }) => {
+const Representative = (props: {
+    handleRepMode: (state: boolean) => void;
+    bill: string;
+}) => {
     const [value, setValue] = useState("");
 
     const handleClick = () => {
-        console.log(value);
         props.handleRepMode(false);
+
+        // setLoading(true);
+        // setTimeout(() => {
+        //     props.handleRepMode(false);
+        //     setLoading(false);
+        // }, 2000);
     };
 
     return (
@@ -105,12 +113,19 @@ const Representative = (props: { handleRepMode: (state: boolean) => void }) => {
                     >
                         Revise Message
                     </Button> */}
-                    <Button
-                        className="w-full rounded-xl py-6 bg-jas-purple text-xl hover:bg-jas-purple/80 gap-x-2"
-                        onClick={handleClick}
+                    <a
+                        href={`mailto:johnwilliams@gmail.com?subject=${encodeURIComponent(
+                            `Concerning ${props.bill}`,
+                        )}&body=${encodeURIComponent(value)}`}
+                        className="flex-center w-full"
                     >
-                        <Send /> <p>Send Off</p>
-                    </Button>
+                        <Button
+                            className="w-full rounded-xl py-6 bg-jas-purple text-xl hover:bg-jas-purple/80 gap-x-2"
+                            // onClick={handleClick}
+                        >
+                            <Send /> <p>Send Off</p>
+                        </Button>
+                    </a>
                 </CardFooter>
             </Card>
         </div>
