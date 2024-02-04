@@ -74,7 +74,7 @@ The user's prompt is: ${opts.input.prompt}
                 res.sort((a, b) => {
                     return b.tags.filter((tag) => Object.values(tagTable).includes(tag)).length - a.tags.filter((tag) => Object.values(tagTable).includes(tag)).length;
                 });
-                return res;
+                return res.splice(0, 2);
             }
             catch (e) {
                 console.error(e);

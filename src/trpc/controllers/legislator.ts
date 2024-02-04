@@ -89,3 +89,22 @@ Bill summary: ${bill.summary}
         }
         return { error: "Something had a stroke and died" };
     });
+
+export const getLegislatorsByZip = publicProcedure
+    .input(z.object({ zip: z.number() })).query(async (opts) => {
+        const legislators = await db.legislator.findMany({
+            where: {
+                zipCodes: {
+                    has: opts.input.zip
+                }
+            },
+            select: {
+                name: true,
+                type: true,
+                party: true,
+                district: true,
+                pictureUrl: true
+            }
+        });
+        return legislators;
+    });
