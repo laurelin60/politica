@@ -12,7 +12,7 @@ const inter = Inter({
 export const metadata = {
     title: "PolitiCA",
     description: "A template repository with a setup I love",
-    icons: [{ rel: "icon", url: "/favicon.ico" }],
+    icons: [{ rel: "icon", url: "./favicon.ico" }],
 };
 
 export default function RootLayout({
