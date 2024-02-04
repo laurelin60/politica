@@ -2,13 +2,11 @@ import { db } from "@/db";
 import { publicProcedure } from "@/trpc/trpc";
 import { z } from "zod";
 import { callGemini } from "@/app/api/gemini/gemini.mjs";
-import { $Enums } from "@prisma/client";
-import { getLegislatorBills } from "@/trpc/controllers/bill";
 
 export const writeEmailToLegislator = publicProcedure
     .input(z.object({ legislatorName: z.string(), billId: z.string() }))
     .query(async (opts) => {
-        let bill = await db.bill.findFirst({
+        const bill = await db.bill.findFirst({
             where: {
                 id: opts.input.billId
             },
@@ -35,20 +33,19 @@ You do not need to include the subject line.
 
 ### RESPONSE
 `);
-                return {"message": response};
-            }
-            catch (e) {
+                return { "message": response };
+            } catch (e) {
                 console.error(e);
                 if (attempts == 3) break;
             }
         }
-        return { error: "Something had a stroke and died" }; 
+        return { error: "Something had a stroke and died" };
     });
 
 export const getLegislatorSummary = publicProcedure
     .input(z.object({ legislatorName: z.string() }))
     .query(async (opts) => {
-        let bills = await db.bill.findMany({
+        const bills = await db.bill.findMany({
             where: {
                 author: {
                     // Perform a join with the Legislator table and filter by author's name
@@ -84,12 +81,11 @@ Bill summary: ${bill.summary}
 
 ### RESPONSE
 `);
-                return {"message": response};
-            }
-            catch (e) {
+                return { "message": response };
+            } catch (e) {
                 console.error(e);
                 if (attempts == 3) break;
             }
         }
-        return { error: "Something had a stroke and died" }; 
+        return { error: "Something had a stroke and died" };
     });
