@@ -31,12 +31,18 @@ const Representative = (props: {
         // }, 2000);
     };
 
+    // const response = await fetch(
+    //     `api/trpc/writeEmailToLegislator?input={"legislatorName": ${legislator.name}}"}`,
+    // );
+    // //localhost:3000/api/trpc/writeEmailToLegislator?input={%22legislatorName%22:%20%22Joe%20Williams,%20%22billId%22:%20%2212345%22}%22}
+    // http:
+
     return (
         <div className="space-y-6 flex flex-col w-full">
             <div className="flex space-x-4">
                 <div
                     onClick={handleClick}
-                    className="flex items-center space-x-2 text-jas-dark h-fit bg-[#ECECEC] border-black border-2 border-opacity-10 bg-opacity-25 p-2 rounded-xl w-fit"
+                    className="flex items-center space-x-2 text-jas-dark h-fit bg-[#ECECEC] border-black border-2 border-opacity-10 bg-opacity-25 p-2 rounded-xl cursor-pointer w-fit"
                 >
                     <ArrowLeft className="size-6" />
                 </div>

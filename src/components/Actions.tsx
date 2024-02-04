@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dot, Lightbulb, Zap } from "lucide-react";
 
 import ActionCarousel from "./ActionCarousel";
+import { DataResponse } from "./Chat";
 import Representative from "./Representative";
 
-const Actions = ({ bill }: { bill: string | undefined }) => {
+const Actions = ({
+    bill,
+    zipCode = 90095,
+}: {
+    bill: DataResponse | undefined;
+    zipCode: number;
+}) => {
     if (bill == undefined) {
         return (
             <div className="flex-center w-full h-full">
@@ -12,6 +19,27 @@ const Actions = ({ bill }: { bill: string | undefined }) => {
             </div>
         );
     }
+
+    const handleZip = async () => {
+        const response = await fetch(
+            `api/trpc/getLegislatorsByZip?input={"zip":%20"${encodeURIComponent(
+                zipCode,
+            )}"}`,
+        );
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const newData = await response.json();
+
+        console.log(newData);
+    };
+
+    useEffect(() => {
+        void handleZip();
+
+        return () => {
+            void handleZip();
+        };
+    }, []);
 
     const [repMode, setRepMode] = useState(false);
 
@@ -23,7 +51,10 @@ const Actions = ({ bill }: { bill: string | undefined }) => {
         <>
             {repMode ? (
                 <div className="flex-grow flex h-full w-full">
-                    <Representative handleRepMode={handleRepMode} bill={bill} />
+                    <Representative
+                        handleRepMode={handleRepMode}
+                        bill={bill.measure}
+                    />
                 </div>
             ) : (
                 <div className="space-y-5 h-full flex flex-col w-full">
@@ -34,13 +65,15 @@ const Actions = ({ bill }: { bill: string | undefined }) => {
                         </div>
                         <div className="flex items-center space-x-2 text-jas-dark">
                             <Dot className="size-8 -m-4" />
-                            <p className="font-semibold text-xl">{bill}</p>
+                            <p className="font-semibold text-xl">
+                                {bill.measure}
+                            </p>
                         </div>
                     </div>
 
                     <div>
                         <h1 className="font-bold text-4xl line-clamp-2">
-                            A bill that increases access to Hormone Therapy
+                            {bill.subject}
                         </h1>
                     </div>
 
@@ -55,11 +88,8 @@ const Actions = ({ bill }: { bill: string | undefined }) => {
                             <h1 className="font-bold text-3xl">
                                 What you need to know
                             </h1>
-                            <p className="font-semibold text-xl text-jas-dark leading-7">
-                                The proposed bill aims to make Hormone Therapy
-                                more accessible. This means ensuring that more
-                                people can easily obtain the necessary
-                                medications and treatment.
+                            <p className="font-semibold text-xl text-jas-dark leading-7 line-clamp-4">
+                                {bill.summary}
                             </p>
                         </div>
                     </div>

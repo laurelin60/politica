@@ -3,20 +3,22 @@
 import { ChangeEvent, MouseEvent, useState } from "react";
 import Access from "@/components/Access";
 import Actions from "@/components/Actions";
-import Chat from "@/components/Chat";
+import Chat, { DataResponse } from "@/components/Chat";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
 
 const Page = () => {
-    const [bill, setBill] = useState<string>();
+    const [bill, setBill] = useState<DataResponse>();
     // const [visual, setVisual] = useState(false);
     const [adhd, setAdhd] = useState(false);
     const [yPosition, setYPosition] = useState<number>(0);
 
-    const handleSelect = (billTitle: string) => {
-        setBill((prevBill) => (prevBill == billTitle ? undefined : billTitle));
+    const handleSelect = (billTitle: DataResponse) => {
+        setBill((prevBill) =>
+            prevBill?.measure == billTitle.measure ? undefined : billTitle,
+        );
     };
 
     // const handleVisual = () => {
@@ -48,6 +50,8 @@ const Page = () => {
         window.localStorage.setItem("politiCAtutorial", "true");
     };
 
+    const [zipCode, setZipCode] = useState<number>(90095);
+
     return (
         <>
             <div
@@ -60,7 +64,7 @@ const Page = () => {
                             <Chat onSelect={handleSelect} />
                         </div>
                         <div className="w-[45%]">
-                            <Actions bill={bill} />
+                            <Actions bill={bill} zipCode={zipCode} />
                         </div>
                     </div>
                     <Access adhd={adhd} handleAdhd={handleAdhd} />
@@ -144,7 +148,14 @@ const Page = () => {
 
                                     <Button
                                         className="bg-jas-purple hover:bg-jas-purple/80 text-white py-6 px-7 rounded-2xl text-xl"
-                                        onClick={() => setStage(2)}
+                                        onClick={(event) => {
+                                            setStage(2);
+                                            setZipCode(
+                                                parseInt(
+                                                    event.currentTarget.value,
+                                                ),
+                                            );
+                                        }}
                                     >
                                         Confirm Location
                                     </Button>
