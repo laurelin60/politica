@@ -28,30 +28,25 @@ enum VoteType {
 }
 
 enum Tag {
+  LGBTQ
+  Judicial
+  Children
+  CivilRights
+  Sustainability
+  GenderEquality
+  RacialJustice
+  RefugeeRights
+  DisabilityRights
   Budget
   Education
   Health
-  Environment
   Transportation
   Housing
   PublicSafety
-  CivilRights
   Labor
-  Business
-  Agriculture
   Energy
+  Agriculture
   Technology
-  LGBTQIA
-}
-
-model WeightedTag {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  tag          Tag
-  weight       Int
-  Legislator   Legislator @relation(fields: [legislatorId], references: [id])
-  legislatorId String     @db.ObjectId
-
-  @@unique([legislatorId, tag])
 }
 
 model User {
@@ -79,7 +74,6 @@ model Legislator {
   district   Int
   votes      Vote[]
   bills      Bill[]
-  tags       WeightedTag[]
 }
 
 model Bill {
