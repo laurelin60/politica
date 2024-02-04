@@ -31,6 +31,8 @@ Bill subject: ${bill.subject}
 Bill status: ${bill.status}
 Bill summary: ${bill.summary}
 
+You do not need to include the subject line.
+
 ### RESPONSE
 `);
                 return {"message": response};
@@ -44,7 +46,50 @@ Bill summary: ${bill.summary}
     });
 
 export const getLegislatorSummary = publicProcedure
-    .input(z.object({ legislatorName: z.string(), billId: z.string() }))
+    .input(z.object({ legislatorName: z.string() }))
     .query(async (opts) => {
-        return { "message": "hi im writing about a bill and im cool and like cookies :)" };
+        let bills = await db.bill.findMany({
+            where: {
+                author: {
+                    // Perform a join with the Legislator table and filter by author's name
+                    name: {
+                        contains: opts.input.legislatorName // Use the contains filter
+                    }
+                }
+            },
+            select: {
+                measure: true,
+                subject: true,
+                status: true,
+                summary: true
+            }
+        });
+        if (!bills) return { "summary": `This legislator is named ${opts.input.legislatorName}.` };
+        let attempts = 0;
+        while (attempts++ < 3) {
+            try {
+                const response = await callGemini(`### SYSTEM INSTRUCTIONS
+Write a one or two sentence summary of the legislator ${opts.input.legislatorName} using the info of the following bills they authored. Include specific information (don't just include topics; include specific bills) and analyze without just listing.
+
+Also, if you talk about a bill, put the bill measure in parenthesis when mentioning.
+
+Bills:
+
+${bills.map(bill => `===== START BILL =====
+Bill measure: ${bill.measure}
+Bill subject: ${bill.subject}
+Bill status: ${bill.status}
+Bill summary: ${bill.summary}
+===== END BILL =====`).join("\n\n")}
+
+### RESPONSE
+`);
+                return {"message": response};
+            }
+            catch (e) {
+                console.error(e);
+                if (attempts == 3) break;
+            }
+        }
+        return { error: "Something had a stroke and died" }; 
     });
