@@ -36,7 +36,10 @@ const Page = () => {
         setBottom(1728 - yPosition - 922 + 20);
     };
 
-    const tutorial = window.localStorage.getItem("politiCAtutorial");
+    let tutorial;
+    if (typeof window !== "undefined") {
+        tutorial = window.localStorage.getItem("politiCAtutorial");
+    }
 
     const [stage, setStage] = useState(0);
     const [location, setLocation] = useState("");
@@ -47,7 +50,9 @@ const Page = () => {
 
     const handleEnd = () => {
         setStage(3);
-        window.localStorage.setItem("politiCAtutorial", "true");
+        if (typeof window !== "undefined") {
+            window.localStorage.setItem("politiCAtutorial", "true");
+        }
     };
 
     const [zipCode, setZipCode] = useState<number>(90095);
