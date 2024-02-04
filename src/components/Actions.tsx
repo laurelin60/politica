@@ -31,6 +31,8 @@ const Actions = ({
         useState<RepresentativeType[]>();
 
     const handleZip = async () => {
+        console.log(zipCode);
+
         const response = await fetch(
             `api/trpc/getLegislatorsByZip?input={"zip":%20"${encodeURIComponent(
                 zipCode,
