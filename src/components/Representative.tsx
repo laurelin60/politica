@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Card,
     CardContent,
@@ -13,12 +13,13 @@ import {
 } from "lucide-react";
 
 import { RepresentativeType } from "./Actions";
+import { DataResponse } from "./Chat";
 import Tinymce from "./tinymce";
 import { Button } from "./ui/button";
 
 const Representative = (props: {
     handleRepMode: (index: number) => void;
-    bill: string;
+    bill: DataResponse;
     repIndex: number;
     representative: RepresentativeType | undefined;
 }) => {
@@ -33,6 +34,33 @@ const Representative = (props: {
         //     setLoading(false);
         // }, 2000);
     };
+
+    const [email, setEmail] = useState("");
+
+    const writeEmail = async () => {
+        console.log(props.bill);
+        const response = await fetch(
+            `api/trpc/writeEmailToLegislator?input={"legislatorName":%20"${encodeURIComponent(
+                props.representative?.name ?? "",
+            )}", "billId":%20"${encodeURIComponent(props.bill.id)}"}`,
+        );
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const newData = await response.json();
+
+        console.log(newData);
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+        setEmail(newData.result.data);
+    };
+
+    useEffect(() => {
+        void writeEmail();
+
+        return () => {
+            void writeEmail();
+        };
+    }, []);
 
     // const response = await fetch(
     //     `api/trpc/writeEmailToLegislator?input={"legislatorName": ${legislator.name}}"}`,
@@ -102,9 +130,7 @@ const Representative = (props: {
                     </div>
 
                     <Tinymce
-                        initialValue={
-                            "Et cupidatat non labore irure pariatur laborum cupidatat et tempor enim voluptate pariatur. Sint cillum nulla anim magna. In anim et ipsum consectetur sint eiusmod excepteur. Nostrud ipsumexcepteur eu officia cupidatat. In Lorem adreprehenderit culpa aute id ad."
-                        }
+                        initialValue={email}
                         handleValueChange={setValue}
                     />
                     {/* <p className="font-semibold text-lg bg-gradient-to-b from-jas-dark via-gray-400 to-jas-light inline-block text-transparent bg-clip-text line-clamp-4">
@@ -125,8 +151,8 @@ const Representative = (props: {
                         Revise Message
                     </Button> */}
                     <a
-                        href={`mailto:johnwilliams@gmail.com?subject=${encodeURIComponent(
-                            `Concerning ${props.bill}`,
+                        href={`mailto:yourrepresentative@gmail.com?subject=${encodeURIComponent(
+                            `Concerning ${props.bill.subject}`,
                         )}&body=${encodeURIComponent(value)}`}
                         className="flex-center w-full"
                     >

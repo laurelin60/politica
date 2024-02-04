@@ -69,7 +69,7 @@ const Actions = ({
                     <Representative
                         handleRepMode={handleRepMode}
                         repIndex={repIndex}
-                        bill={bill.measure}
+                        bill={bill}
                         representative={
                             representatives
                                 ? representatives[repIndex >= 0 ? repIndex : 0]
