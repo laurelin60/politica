@@ -59,7 +59,7 @@ async function processBill(bill, billTextBaseUrl, billVotesBaseUrl) {
                 }
                 catch (e2) {
                     bill.publishDate = "";
-                    console.log(chalk.redBright(`Failed to get publish date for "${bill.billName}"`))
+                    console.log(chalk.red(`Failed to get publish date for "${bill.billName}"`))
                 }
             }
 
