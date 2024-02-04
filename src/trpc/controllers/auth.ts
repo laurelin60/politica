@@ -1,7 +1,7 @@
+import { db } from "@/db";
 import { publicProcedure } from "@/trpc/trpc";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { TRPCError } from "@trpc/server";
-import { db } from "@/db";
 
 export const authCallback = publicProcedure.query(async () => {
     const { getUser } = getKindeServerSession();
@@ -13,8 +13,8 @@ export const authCallback = publicProcedure.query(async () => {
 
     const dbUser = await db.user.findFirst({
         where: {
-            id: user.id
-        }
+            id: user.id,
+        },
     });
 
     if (!dbUser) {
@@ -22,10 +22,10 @@ export const authCallback = publicProcedure.query(async () => {
         await db.user.create({
             data: {
                 id: user.id,
-                email: user.email
-            }
+                email: user.email,
+            },
         });
     }
 
     return { success: true };
-})
+});

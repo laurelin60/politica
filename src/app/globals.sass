@@ -1,0 +1,204 @@
+//* root element styling
+
+//! colors
+$light-bg: #fff 
+$text-color: #000
+$sec-text-color: rgba(0, 0, 0, .5) 
+$prim: #7B5AFF
+$hover-prim: #5B3CD5
+$pink: #CA5AFF
+$pink-bg: #FAEFFF
+$sec: #ECECEC 
+$hover-sec: #DBD8D8
+
+$link: grey
+$linkHover: darkgrey
+$navBackground: rgba(255, 255, 255, .5)
+//! text
+$buttons: 22px
+$spanText: blue
+h1
+  font-size: 48px
+  color: $text-color
+  font-weight: 800
+  text-align: center
+h2
+  font-size: 28px
+  color: $text-color
+  font-weight: 800
+  & span 
+    color: $spanText
+p
+    font-size: 22px
+    color: $sec-text-color
+    font-weight: 400
+    text-align: center
+    & span
+        color: $text-color
+      
+//! animations
+$hoverAnimate: background-color 200ms ease-in-out
+
+//* core elements
+html,
+body  
+  margin: 0 
+  overflow-x: hidden 
+  font-family: Inter, sans-serif
+
+//* light and dark mode
+@mixin color-themes($theme)  
+  @if $theme == "light"  
+    background-color: $light-bg
+  @else  
+    background-color: $dark-bg
+
+ 
+
+//* nav
+nav  
+  width: 100% 
+  height: fit-content 
+  padding: 22px
+  position: fixed
+  top: 0
+  background-color: $navBackground
+  backdrop-filter: blur(10px)
+  ul  
+    margin: 0 
+    padding: 0 
+    list-style: none 
+    width: 100%
+  li  
+    display: inline-block 
+    width: 100%
+  a  
+    display: block 
+    padding: 6px 12px 
+    text-decoration: none 
+    color: $link
+    &:hover
+      color: $linkHover
+
+ 
+
+//* reuseable props
+@mixin grid  
+  display: grid 
+  place-content: center 
+ 
+@mixin grid-row  
+  @include grid 
+  display: grid 
+  grid-template-columns: repeat(3, 1fr) 
+  align-items: center 
+  justify-content: center 
+ 
+@mixin grid-column  
+  @include grid 
+  display: grid 
+  grid-template-columns: auto 
+  align-items: center 
+  justify-content: center 
+ 
+
+@mixin flex  
+  display: flex 
+  justify-content: center 
+  align-items: center 
+ 
+@mixin flex-row  
+  @include flex 
+  flex-direction: row 
+  justify-content: space-between 
+ 
+@mixin flex-column  
+  @include flex 
+  flex-direction: column 
+ 
+
+//* general formatting
+.hero
+  height: 100vh
+  width: 100vw
+  @include grid
+  &.container
+    width: 400px
+.section
+  min-height: 60vh
+  height: fit-content
+.container  
+  @include grid 
+ 
+.flex-row  
+  @include flex 
+  @include flex-row 
+ 
+.flex-column  
+  @include flex 
+  @include flex-column 
+ 
+.grid-row  
+  @include grid 
+  @include grid-row 
+ 
+.grid-column  
+  @include grid 
+  @include grid-column 
+ 
+
+
+
+//* reusable components
+//* regular button
+button  
+  @include grid 
+  cursor: pointer 
+  padding: 22px 12px 
+  white-space: nowrap 
+  outline: 0 
+  border: 0 
+  padding: 18px 
+  font-weight: 600
+  color: #fff
+  border-radius: 22px
+  transition: $hoverAnimate
+  &.primary  
+    background-color: $prim 
+    &:hover  
+      background-color: $hover-prim 
+  &.secondary  
+    background-color: $sec 
+    &:hover  
+      background-color: $hover-sec 
+     
+   
+ 
+
+//* button with outline
+
+//* commonly used componnets
+  //! color options for tags
+@mixin red 
+  background-color: lighten(red, 40%)
+  color: darken(red, 15%)
+.tag
+  padding: 8px 12px
+  border-radius: 12px
+  white-space: nowrap
+  font-weight: 600
+  width: fit-content
+  @include red
+
+
+//* landing page
+.title-contain 
+    @include flex
+    @include flex-column
+    max-width: 800px
+    & span
+        @include flex
+        @include flex-row
+        gap: 12px
+        
+    

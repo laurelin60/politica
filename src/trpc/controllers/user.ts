@@ -1,15 +1,15 @@
-import { privateProcedure } from "@/trpc/trpc";
 import { db } from "@/db";
-import { z } from "zod";
+import { privateProcedure } from "@/trpc/trpc";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 export const getUser = privateProcedure.query(async ({ ctx }) => {
     const { userId } = ctx;
 
     return await db.user.findFirst({
         where: {
-            id: userId
-        }
+            id: userId,
+        },
     });
 });
 
@@ -22,8 +22,8 @@ export const updateUser = privateProcedure
 
         const existingUser = await db.user.findFirst({
             where: {
-                id: userId
-            }
+                id: userId,
+            },
         });
 
         if (!existingUser) {
@@ -32,9 +32,9 @@ export const updateUser = privateProcedure
 
         const updatedUser = await db.user.update({
             where: {
-                id: userId
+                id: userId,
             },
-            data: {}
+            data: {},
         });
 
         return updatedUser;
