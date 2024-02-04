@@ -71,11 +71,12 @@ The user's prompt is: ${opts.input.prompt}
                         }
                     }
                 });
-                res.sort((a: any, b: any) => {
-                    return b.tags.filter((tag: any) => Object.values(tagTable).includes(tag)).length - a.tags.filter((tag: any) => Object.values(tagTable).includes(tag)).length;
+                res.sort((a, b) => {
+                    return b.tags.filter((tag) => Object.values(tagTable).includes(tag)).length - a.tags.filter((tag) => Object.values(tagTable).includes(tag)).length;
                 });
-                return res;
-            } catch (e) {
+                return res.splice(0, 2);
+            }
+            catch (e) {
                 console.error(e);
                 if (attempts == 3) break;
             }

@@ -1,7 +1,7 @@
 import { authCallback } from "@/trpc/controllers/auth";
 import { getBillById, getLegislatorBills, getBillByPrompt } from "@/trpc/controllers/bill";
 import { getUser, updateUser } from "@/trpc/controllers/user";
-import { writeEmailToLegislator } from "@/trpc/controllers/legislator";
+import { writeEmailToLegislator, getLegislatorSummary, getLegislatorsByZip } from "@/trpc/controllers/legislator";
 
 import { router } from "./trpc";
 
@@ -12,7 +12,9 @@ export const appRouter = router({
     getBillById: getBillById,
     getLegislatorBills: getLegislatorBills,
     getBillByPrompt: getBillByPrompt,
-    writeEmailToLegislator: writeEmailToLegislator
+    writeEmailToLegislator: writeEmailToLegislator,
+    getLegislatorSummary: getLegislatorSummary,
+    getLegislatorsByZip: getLegislatorsByZip
 });
 
 export type AppRouter = typeof appRouter;

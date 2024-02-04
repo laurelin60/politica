@@ -75,6 +75,7 @@ model Legislator {
   summary    String?
   votes      Vote[]
   bills      Bill[]
+  zipCodes   Int[]
 }
 
 model Bill {
