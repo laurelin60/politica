@@ -192,9 +192,21 @@ async function seedVotes() {
                 });
             }
         }
-        // Create votes in bulk
+        let uniqueMap = {}
+        voteData.forEach(vote => {
+            const key = vote.legislatorId + '|' + vote.billId;
+            console.log(key);
+            // @ts-ignore
+            if (!uniqueMap[key]) {
+                // @ts-ignore
+                uniqueMap[key] = vote;
+            }
+        })
+
+        const data = Object.values(uniqueMap);
+
         // @ts-ignore
-        await db.vote.createMany({ data: voteData, skipDuplicates: true });
+        await db.vote.createMany({ data: data });
     }
 }
 
@@ -260,11 +272,11 @@ async function seed() {
     // console.log("Seeding Bills...");
     // await seedBills();
     //
-    // console.log("Seeding Votes...");
-    // await seedVotes();
+    console.log("Seeding Votes...");
+    await seedVotes();
 
-    console.log("Seeding Summaries...");
-    await seedBillSummaries();
+    // console.log("Seeding Summaries...");
+    // await seedBillSummaries();
 }
 
 seed();

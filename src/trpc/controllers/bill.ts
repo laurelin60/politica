@@ -13,7 +13,13 @@ export const getBillByPrompt = publicProcedure
                 The user's prompt is: ${opts.input.prompt}`
             );
         }
-        return db.bill.findMany({});
+        return db.bill.findMany({
+            where: {
+                tags: {
+                    has: "LGBTQ"
+                }
+            }
+        });
     });
 
 export const getBillById = publicProcedure
