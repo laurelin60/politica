@@ -48,10 +48,8 @@ const Representative = (props: {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const newData = await response.json();
 
-        console.log(newData);
-
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-        setEmail(newData.result.data);
+        setEmail(newData.result.data.message);
     };
 
     useEffect(() => {
