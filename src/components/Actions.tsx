@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dot, Lightbulb, Zap, ArrowUpRightFromCircle } from "lucide-react";
+import { ArrowUpRightFromCircle, Dot, Lightbulb, Zap } from "lucide-react";
 
 import ActionCarousel from "./ActionCarousel";
 import { DataResponse } from "./Chat";
@@ -14,9 +14,9 @@ export type RepresentativeType = {
 };
 
 const Actions = ({
-                     bill,
-                     zipCode
-                 }: {
+    bill,
+    zipCode,
+}: {
     bill: DataResponse | undefined;
     zipCode: number;
 }) => {
@@ -35,8 +35,8 @@ const Actions = ({
 
         const response = await fetch(
             `api/trpc/getLegislatorsByZip?input={"zip":%20"${encodeURIComponent(
-                zipCode
-            )}"}`
+                zipCode,
+            )}"}`,
         );
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -82,20 +82,23 @@ const Actions = ({
             ) : (
                 <div className="space-y-5 h-full flex flex-col w-full">
                     <div className="flex items-center space-x-4">
-                        <div
-                            className="flex items-center space-x-2 text-jas-pink bg-jas-pink bg-opacity-25 px-4 py-2 rounded-2xl">
+                        <div className="flex items-center space-x-2 text-jas-pink bg-jas-pink bg-opacity-25 px-4 py-2 rounded-2xl">
                             <Zap className="size-6 popover" />
                             <p className="font-bold">one-sentence summary</p>
                         </div>
                         <div className="flex items-center space-x-2 text-jas-dark">
                             <Dot className="size-8 -m-4" />
-                            <a className="font-semibold text-xl hover:underline text-jas-dark"
-                               href={"https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=" + bill.id}
-                               target="_blank">
+                            <a
+                                className="font-semibold text-xl hover:underline text-jas-dark"
+                                href={
+                                    "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=" +
+                                    bill.id
+                                }
+                                target="_blank"
                             >
                                 {bill.measure}
                             </a>
-                            <ArrowUpRightFromCircle/>
+                            <ArrowUpRightFromCircle />
                         </div>
                     </div>
 
