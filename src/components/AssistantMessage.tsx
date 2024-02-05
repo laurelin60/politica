@@ -70,7 +70,7 @@ const AssistantMessage = ({
                     </h6>
                 </div>
 
-                {data &&
+                {!data.error &&
                     data.map((bill, index) => (
                         <div className="space-y-4" key={bill.measure + index}>
                             {bill.measure === selectedBill?.measure ? (
