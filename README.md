@@ -24,3 +24,11 @@
 </p>
 
 ### 🏅 QWER Hacks 2024 — Most Inclusive Design, Best Use of TinyMCE
+
+<br>
+
+<p align="center">
+    <a href="https://politica-three.vercel.app">
+        <img width="1728" alt="Splash" src="https://github.com/laurelin60/politica/assets/100006999/7d574ef8-2749-4b02-8455-b289b46da6c4">
+    </a>
+</p>
