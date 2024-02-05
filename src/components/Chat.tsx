@@ -175,21 +175,20 @@ const Chat = ({
                                             {index == messages.length - 1 &&
                                                 m.role == "user" && (
                                                     <div className="bg-jas-light rounded-xl p-4 flex flex-row gap-x-2">
-                                                        <Avatar className="size-8">
+                                                        <Avatar className="size-10">
                                                             <AvatarImage
-                                                                src="https://studentcouncil.ics.uci.edu/assets/img/logo.svg"
-                                                                alt="@icssc"
+                                                                src="./politicaIconT.svg"
+                                                                alt="@Politica"
+                                                                className=""
                                                             />
                                                             <AvatarFallback>
-                                                                A
+                                                                P
                                                             </AvatarFallback>
                                                         </Avatar>
                                                         <div className="flex gap-y-2 flex-col">
                                                             <div className="flex items-center gap-x-2 flex-row">
                                                                 <span className="font-bold text-xl">
-                                                                    Your
-                                                                    personal
-                                                                    assistant
+                                                                    Politica
                                                                 </span>
                                                             </div>
 
