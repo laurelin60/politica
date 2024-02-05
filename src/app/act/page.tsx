@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, MouseEvent, useState } from "react";
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import Access from "@/components/Access";
 import Actions from "@/components/Actions";
 import Chat, { DataResponse } from "@/components/Chat";
@@ -36,12 +36,27 @@ const Page = () => {
         setBottom(1728 - yPosition - 922 + 20);
     };
 
-    let tutorial;
-    if (typeof window !== "undefined") {
-        tutorial = window.localStorage.getItem("politiCAtutorial");
-    }
+    const [tutorial, setTutorial] = useState(true);
 
-    const [stage, setStage] = useState(0);
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const storedTutorial =
+                window.localStorage.getItem("politiCAtutorial");
+            if (!storedTutorial) {
+                setStage(0);
+                setTutorial(false);
+            }
+
+            const windowZipCode = parseInt(
+                window.localStorage.getItem("politiCAzipcode") ?? "",
+            );
+            if (zipCode && !isNaN(windowZipCode)) {
+                setZipCode(windowZipCode);
+            }
+        }
+    }, []);
+
+    const [stage, setStage] = useState(-1);
     const [location, setLocation] = useState("");
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -50,12 +65,23 @@ const Page = () => {
 
     const handleEnd = () => {
         setStage(3);
+
         if (typeof window !== "undefined") {
             window.localStorage.setItem("politiCAtutorial", "true");
         }
+
+        setTutorial(true);
     };
 
     const [zipCode, setZipCode] = useState<number>(90095);
+
+    const handleZipCode = (zipCode: number) => {
+        setZipCode(zipCode);
+
+        if (typeof window !== "undefined") {
+            window.localStorage.setItem("politiCAzipcode", zipCode.toString());
+        }
+    };
 
     return (
         <>
@@ -167,73 +193,14 @@ const Page = () => {
                                         className="bg-jas-purple hover:bg-jas-purple/80 text-white py-6 px-7 rounded-2xl text-xl"
                                         onClick={() => {
                                             setStage(2);
-                                            setZipCode(parseInt(location));
+                                            handleZipCode(parseInt(location));
                                         }}
                                     >
                                         Confirm Location
                                     </Button>
                                 </div>
                             ) : (
-                                <div className="space-y-4 flex-center flex-col pb-12">
-                                    <div className="flex flex-col text-center flex-center space-y-1">
-                                        <h1 className="font-bold text-3xl">
-                                            Select your advocacy interests
-                                        </h1>
-                                        <h3 className="text-lg w-[90%] font-medium text-jas-dark">
-                                            choose areas that most resonate with
-                                            you
-                                        </h3>
-                                    </div>
-
-                                    <ToggleGroup
-                                        type="multiple"
-                                        className="grid grid-cols-3 gap-2 pb-4"
-                                    >
-                                        <ToggleGroupItem
-                                            value="LGBTQ+"
-                                            className="bg-jas-dark font-medium text-base p-5 rounded-xl bg-opacity-25 border-jas-dark border-opacity-25 border-2 hover:border-jas-purple text-jas-dark hover:bg-jas-purple/10 hover:text-jas-purple transition-all"
-                                        >
-                                            LGBTQ+
-                                        </ToggleGroupItem>
-                                        <ToggleGroupItem
-                                            value="gender"
-                                            className="bg-jas-dark font-medium text-base p-5 rounded-xl bg-opacity-25 border-jas-dark border-opacity-25 border-2 hover:border-jas-purple text-jas-dark hover:bg-jas-purple/10 hover:text-jas-purple transition-all"
-                                        >
-                                            Gender
-                                        </ToggleGroupItem>
-                                        <ToggleGroupItem
-                                            value="race"
-                                            className="bg-jas-dark font-medium text-base p-5 rounded-xl bg-opacity-25 border-jas-dark border-opacity-25 border-2 hover:border-jas-purple text-jas-dark hover:bg-jas-purple/10 hover:text-jas-purple transition-all"
-                                        >
-                                            Education
-                                        </ToggleGroupItem>
-                                        <ToggleGroupItem
-                                            value="equality"
-                                            className="bg-jas-dark font-medium text-base p-5 rounded-xl bg-opacity-25 border-jas-dark border-opacity-25 border-2 hover:border-jas-purple text-jas-dark hover:bg-jas-purple/10 hover:text-jas-purple transition-all"
-                                        >
-                                            Equality
-                                        </ToggleGroupItem>
-                                        <ToggleGroupItem
-                                            value="mental health"
-                                            className="bg-jas-dark font-medium text-sm p-5 rounded-xl bg-opacity-25 border-jas-dark border-opacity-25 border-2 hover:border-jas-purple text-jas-dark hover:bg-jas-purple/10 hover:text-jas-purple transition-all"
-                                        >
-                                            Mental Health
-                                        </ToggleGroupItem>
-                                        <ToggleGroupItem
-                                            value="culture"
-                                            className="bg-jas-dark font-medium text-base p-5 rounded-xl bg-opacity-25 border-jas-dark border-opacity-25 border-2 hover:border-jas-purple text-jas-dark hover:bg-jas-purple/10 hover:text-jas-purple transition-all"
-                                        >
-                                            Financial
-                                        </ToggleGroupItem>
-                                    </ToggleGroup>
-
-                                    <Button
-                                        className="bg-jas-purple hover:bg-jas-purple/80 text-white py-6 px-7 rounded-2xl text-xl"
-                                        onClick={handleEnd}
-                                    >
-                                        Confirm Selection
-                                    </Button>
-                                </div>
+                                <AdvocacyInterests handleEnd={handleEnd} />
                             )}
 
                             <div className="space-x-4 flex flex-row absolute bottom-8">
@@ -261,3 +228,67 @@ const Page = () => {
 };
 
 export default Page;
+
+const AdvocacyInterests = (props: { handleEnd: () => void }) => {
+    return (
+        <div className="space-y-4 flex-center flex-col pb-12">
+            <div className="flex flex-col text-center flex-center space-y-1">
+                <h1 className="font-bold text-3xl">
+                    Select your advocacy interests
+                </h1>
+                <h3 className="text-lg w-[90%] font-medium text-jas-dark">
+                    choose areas that most resonate with you
+                </h3>
+            </div>
+
+            <ToggleGroup
+                type="multiple"
+                className="grid grid-cols-3 gap-2 pb-4"
+            >
+                <ToggleGroupItem
+                    value="LGBTQ+"
+                    className="bg-jas-dark font-medium text-base p-5 rounded-xl bg-opacity-25 border-jas-dark border-opacity-25 border-2 hover:border-jas-purple text-jas-dark hover:bg-jas-purple/10 hover:text-jas-purple transition-all"
+                >
+                    LGBTQ+
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                    value="gender"
+                    className="bg-jas-dark font-medium text-base p-5 rounded-xl bg-opacity-25 border-jas-dark border-opacity-25 border-2 hover:border-jas-purple text-jas-dark hover:bg-jas-purple/10 hover:text-jas-purple transition-all"
+                >
+                    Gender
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                    value="race"
+                    className="bg-jas-dark font-medium text-base p-5 rounded-xl bg-opacity-25 border-jas-dark border-opacity-25 border-2 hover:border-jas-purple text-jas-dark hover:bg-jas-purple/10 hover:text-jas-purple transition-all"
+                >
+                    Education
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                    value="equality"
+                    className="bg-jas-dark font-medium text-base p-5 rounded-xl bg-opacity-25 border-jas-dark border-opacity-25 border-2 hover:border-jas-purple text-jas-dark hover:bg-jas-purple/10 hover:text-jas-purple transition-all"
+                >
+                    Equality
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                    value="mental health"
+                    className="bg-jas-dark font-medium text-sm p-5 rounded-xl bg-opacity-25 border-jas-dark border-opacity-25 border-2 hover:border-jas-purple text-jas-dark hover:bg-jas-purple/10 hover:text-jas-purple transition-all"
+                >
+                    Mental Health
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                    value="culture"
+                    className="bg-jas-dark font-medium text-base p-5 rounded-xl bg-opacity-25 border-jas-dark border-opacity-25 border-2 hover:border-jas-purple text-jas-dark hover:bg-jas-purple/10 hover:text-jas-purple transition-all"
+                >
+                    Financial
+                </ToggleGroupItem>
+            </ToggleGroup>
+
+            <Button
+                className="bg-jas-purple hover:bg-jas-purple/80 text-white py-6 px-7 rounded-2xl text-xl"
+                onClick={props.handleEnd}
+            >
+                Confirm Selection
+            </Button>
+        </div>
+    );
+};
