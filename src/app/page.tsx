@@ -4,8 +4,9 @@
 // import { db } from "@/db";
 // import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 // import { Loader2, Square } from "lucide-react";
+import Link from "next/link";
 import Nav from "@/components/ui/Nav";
-import Link from 'next/link'
+
 import "./globals.sass";
 
 import Tag from "@/components/ui/Tag";
@@ -145,17 +146,13 @@ export default function Home() {
                                             className="secondary"
                                             style={{ fontSize: "28px" }}
                                         >
-                                            <Link href = "/act" >
-                                               Demo
-                                            </Link>
-                                           
+                                            <Link href="/act">Demo</Link>
                                         </button>
                                         <button
                                             className="primary"
                                             style={{ fontSize: "28px" }}
-                                        > <Link href = "/act" >
-                                            Start now
-                                            </Link>
+                                        >
+                                            <a href="/act">Start now</a>
                                         </button>
                                     </div>
                                 </div>
@@ -226,7 +223,10 @@ export default function Home() {
                                         className="flex flex-row"
                                         style={{ gap: "36px" }}
                                     >
-                                        <img src="./leftPolitica.svg" className="imgHover" />
+                                        <img
+                                            src="./leftPolitica.svg"
+                                            className="imgHover"
+                                        />
                                         <img
                                             src="./mobilePolitica.svg"
                                             alt=""
@@ -290,8 +290,7 @@ export default function Home() {
                                                 marginTop: "36px",
                                             }}
                                         >
-                                             <Link href = "/act" >
-                                            Start now</Link>
+                                            <Link href="/act">Start now</Link>
                                         </button>
                                     </div>
                                 </div>
